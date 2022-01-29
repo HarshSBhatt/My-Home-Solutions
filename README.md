@@ -3,7 +3,7 @@
 ## Author
 
 - [Harsh Samirbhai Bhatt](mailto:harsh.bhatt@dal.ca)
-- [Namit Dadlani](mailto:nm856602@dal.ca)
+- [Namit Dadlani](mailto:nm856602@dal.ca) - branch tested.
 - [Arunkumar Gauda](mailto:arung@dal.ca)
 - [Utsava Verma](mailto:ut752143@dal.ca)
 - [Sai Vaishnavi Jupudi](mailto:sv984706@dal.ca)
