@@ -1,11 +1,11 @@
 import "./App.css";
 import { Button, ThemeProvider } from "@mui/material";
-import theme from "./common/theme";
+import theme from "../common/theme";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Button variant="contained">Hello</Button>
+      <Button variant="contained">Homepage</Button>
     </ThemeProvider>
   );
 }
