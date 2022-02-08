@@ -1,3 +1,6 @@
+import { ThemeProvider } from "@mui/material";
+import { AppContextProvider } from "AppContext";
+import theme from "common/theme";
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
@@ -7,9 +10,13 @@ import Routing from "./routes";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routing />
-    </BrowserRouter>
+    <AppContextProvider>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Routing />
+        </BrowserRouter>
+      </ThemeProvider>
+    </AppContextProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

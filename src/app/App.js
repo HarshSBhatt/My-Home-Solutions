@@ -1,13 +1,8 @@
 import "./App.css";
-import { Button, ThemeProvider } from "@mui/material";
-import theme from "../common/theme";
+import ContentRoutes from "./ContentRoutes";
 
 function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      <Button variant="contained">Homepage</Button>
-    </ThemeProvider>
-  );
+  return <ContentRoutes />;
 }
 
 export default App;
