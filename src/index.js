@@ -1,14 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { ThemeProvider } from "@mui/material";
+import { AppContextProvider } from "AppContext";
+import theme from "common/theme";
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import Routing from "./routes";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AppContextProvider>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Routing />
+        </BrowserRouter>
+      </ThemeProvider>
+    </AppContextProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
