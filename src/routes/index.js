@@ -10,6 +10,7 @@ import Login from "modules/auth/login";
 import Signup from "modules/auth/signup";
 import PrivateRoute from "PrivateRoute";
 import Homepage from "modules/home";
+import ForgotPassword from "modules/auth/components/ForgotPassword";
 
 function Routing() {
   const location = useLocation();
@@ -25,6 +26,10 @@ function Routing() {
     {
       pageLink: ROUTES.SIGNUP,
       view: Signup,
+    },
+    {
+      pageLink: ROUTES.FORGOT_PASSWORD,
+      view: ForgotPassword,
     },
     {
       pageLink: ROUTES.ERROR,

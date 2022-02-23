@@ -4,6 +4,7 @@ export const ROUTES = {
   HOME: "/",
   LOGIN: "/login",
   LOGOUT: "/logout",
+  FORGOT_PASSWORD: "/forgot-password",
   SIGNUP: "/register",
   // Dashboard Routes
   MAIN: "/app/*",
