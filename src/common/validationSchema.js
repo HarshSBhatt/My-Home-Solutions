@@ -15,19 +15,19 @@ export const SignupSchema = yup.object().shape({
     .trim()
     .required("Username is required")
     .min(3, "Username should be at least 3 characters")
-    .max(12, "Username should be at most 12 characters"),
+    .max(15, "Username should be at most 15 characters"),
   firstName: yup
     .string()
     .trim()
     .required("First name is required")
     .min(3, "First name should be at least 2 characters")
-    .max(12, "First name should be at most 20 characters"),
+    .max(20, "First name should be at most 20 characters"),
   lastName: yup
     .string()
     .trim()
     .required("Last name is required")
     .min(3, "Last name should be at least 2 characters")
-    .max(12, "Last name should be at most 20 characters"),
+    .max(20, "Last name should be at most 20 characters"),
   email: yup
     .string()
     .trim()
