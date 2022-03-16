@@ -1,13 +1,6 @@
 // Author: Harsh Bhatt (B00877053)
 
-import {
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-  Divider,
-} from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,11 +10,11 @@ import logo from "assets/images/logo.png";
 import api from "common/api";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "AppContext";
 import { useContext } from "react";
-import { SignupSchema } from "common/validationSchema";
-import { ROUTES, ROLES } from "common/constants";
+import { ResetPasswordSchema } from "common/validationSchema";
+import { ROUTES } from "common/constants";
 
 const EAlert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -70,20 +63,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const currentRole = {
-  "/register": "register-room-seeker",
-  "/register-owner": "register-room-owner",
-  "/register-admin": "register-super-admin",
-};
-
 function Signup() {
+  const params = useParams();
+  const { token, userId } = params;
   const { pathname } = useLocation();
   const {
     state: { authenticated },
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState(ROLES.ROOM_SEEKER);
-  const [route, setRoute] = useState(ROUTES.SIGNUP_SEEKER);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [open, setOpen] = useState(false);
@@ -94,14 +81,6 @@ function Signup() {
     if (authenticated) {
       navigate("/");
     }
-
-    if (pathname === ROUTES.SIGNUP_OWNER) {
-      setRole(ROLES.ROOM_SEEKER);
-      setRoute(ROUTES.SIGNUP_SEEKER);
-    } else {
-      setRole(ROLES.ROOM_OWNER);
-      setRoute(ROUTES.SIGNUP_OWNER);
-    }
     // eslint-disable-next-line
   }, [authenticated, pathname]);
 
@@ -110,13 +89,17 @@ function Signup() {
     formState: { errors },
     handleSubmit,
   } = useForm({
-    resolver: yupResolver(SignupSchema),
+    resolver: yupResolver(ResetPasswordSchema),
   });
 
   const onSubmit = async (formData) => {
     setLoading(true);
     try {
-      const res = await api.post(`/users/${currentRole[pathname]}`, formData);
+      const res = await api.post(
+        `/password-reset/${userId}/${token}`,
+        formData
+      );
+
       const { data } = res;
 
       if (data.success) {
@@ -125,7 +108,7 @@ function Signup() {
         setError("");
         setTimeout(() => {
           navigate(ROUTES.LOGIN_SEEKER);
-        }, 4000);
+        }, 3000);
       }
     } catch (error) {
       setOpen(true);
@@ -159,7 +142,11 @@ function Signup() {
       )}
       {success && (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <EAlert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
+          <EAlert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
             {success}
           </EAlert>
         </Snackbar>
@@ -170,55 +157,7 @@ function Signup() {
         </Box>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <Grid className={classes.formGrid} container spacing={3}>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
-              <TextField
-                {...register("firstName")}
-                variant="outlined"
-                fullWidth
-                label="First Name"
-                name="firstName"
-                autoComplete="off"
-                error={!!errors.firstName}
-                helperText={errors.firstName ? errors.firstName.message : ""}
-              />
-            </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
-              <TextField
-                {...register("lastName")}
-                variant="outlined"
-                fullWidth
-                label="Last Name"
-                name="lastName"
-                autoComplete="off"
-                error={!!errors.lastName}
-                helperText={errors.lastName ? errors.lastName.message : ""}
-              />
-            </Grid>
             <Grid className={classes.inputGrid} item xs={12} sm={12}>
-              <TextField
-                {...register("username")}
-                variant="outlined"
-                fullWidth
-                label="Username"
-                name="username"
-                autoComplete="off"
-                error={!!errors.username}
-                helperText={errors.username ? errors.username.message : ""}
-              />
-            </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12}>
-              <TextField
-                {...register("email")}
-                variant="outlined"
-                fullWidth
-                label="Email"
-                name="email"
-                autoComplete="off"
-                error={!!errors.email}
-                helperText={errors.email ? errors.email.message : ""}
-              />
-            </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
               <TextField
                 {...register("password")}
                 type="password"
@@ -231,7 +170,7 @@ function Signup() {
                 helperText={errors.password ? errors.password.message : ""}
               />
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 {...register("passwordConfirmation")}
                 type="password"
@@ -258,38 +197,10 @@ function Signup() {
               variant="contained"
               color="primary"
             >
-              Register
+              Reset Password
             </Button>
           </Box>
         </form>
-        <Box py={2}>
-          <Divider>
-            <Typography variant="caption" component="div">
-              Or
-            </Typography>
-          </Divider>
-          <Box pt={2} display="flex" justifyContent="center">
-            <Link to={route}>
-              <Typography variant="subtitle2" component="div">
-                Register as {role}
-              </Typography>
-            </Link>
-          </Box>
-        </Box>
-        <Box py={2}>
-          <Divider>
-            <Typography variant="caption" component="div">
-              Or
-            </Typography>
-          </Divider>
-          <Box pt={2} display="flex" justifyContent="center">
-            <Link to={ROUTES.LOGIN_SEEKER}>
-              <Typography variant="subtitle2" component="div">
-                Already have an account? Login
-              </Typography>
-            </Link>
-          </Box>
-        </Box>
       </div>
     </Box>
   );

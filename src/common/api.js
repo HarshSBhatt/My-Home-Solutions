@@ -1,3 +1,5 @@
+// Author: Harsh Bhatt (B00877053)
+
 import axios from "axios";
 
 // use only for image upload

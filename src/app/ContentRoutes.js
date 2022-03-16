@@ -1,6 +1,7 @@
+// Author: Harsh Bhatt (B00877053)
+
 import { ROUTES } from "common/constants";
 import Dashboard from "modules/dashboard";
-import Test from "modules/test";
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
@@ -9,10 +10,6 @@ function ContentRoutes() {
     {
       pageLink: ROUTES.DASHBOARD,
       view: Dashboard,
-    },
-    {
-      pageLink: ROUTES.TEST,
-      view: Test,
     },
   ];
   //! Note: All the private routes will be defined here
