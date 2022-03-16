@@ -1,3 +1,5 @@
+// Author: Harsh Bhatt (B00877053)
+
 import * as yup from "yup";
 import { REGEX } from "./utils";
 

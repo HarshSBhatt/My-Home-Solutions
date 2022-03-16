@@ -1,3 +1,5 @@
+// Author: Harsh Bhatt (B00877053)
+
 /* ROUTERS  */
 export const ROUTES = {
   // COMMON ROUTES

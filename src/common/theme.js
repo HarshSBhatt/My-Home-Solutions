@@ -1,3 +1,5 @@
+// Author: Harsh Bhatt (B00877053)
+
 import { createTheme } from "@mui/material";
 import { red } from "@mui/material/colors";
 

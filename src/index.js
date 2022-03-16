@@ -1,3 +1,5 @@
+// Author: Harsh Bhatt (B00877053)
+
 import { ThemeProvider } from "@mui/material";
 import { AppContextProvider } from "AppContext";
 import theme from "common/theme";

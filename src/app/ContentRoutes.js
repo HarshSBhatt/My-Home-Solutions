@@ -1,3 +1,5 @@
+// Author: Harsh Bhatt (B00877053)
+
 import { ROUTES } from "common/constants";
 import Dashboard from "modules/dashboard";
 import React from "react";

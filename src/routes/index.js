@@ -1,3 +1,5 @@
+// Author: Harsh Bhatt (B00877053)
+
 import React, { useContext, useEffect } from "react";
 import { Navigate, Routes, Route, useLocation } from "react-router-dom";
 

@@ -1,3 +1,5 @@
+// Author: Harsh Bhatt (B00877053)
+
 export const SET_TOKEN = "SET_TOKEN";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const SET_USER_ID = "SET_USER_ID";

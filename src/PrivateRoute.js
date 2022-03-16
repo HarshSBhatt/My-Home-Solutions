@@ -1,3 +1,5 @@
+// Author: Harsh Bhatt (B00877053)
+
 import { ROUTES } from "common/constants";
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
