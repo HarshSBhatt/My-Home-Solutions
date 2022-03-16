@@ -1,3 +1,5 @@
+// Author: Harsh Bhatt (B00877053)
+
 import { createTheme } from "@mui/material";
 import { red } from "@mui/material/colors";
 
@@ -23,6 +25,9 @@ const theme = createTheme({
   typography: {
     useNextVariants: true,
     fontFamily: ["Inter", "sans-serif"].join(","),
+    allVariants: {
+      color: "#1c1e21",
+    },
   },
 });
 
