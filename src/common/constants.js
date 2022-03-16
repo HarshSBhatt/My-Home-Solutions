@@ -7,6 +7,7 @@ export const ROUTES = {
   LOGIN_ADMIN: "/login-admin",
   LOGOUT: "/logout",
   FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/password-reset/:userId/:token",
   SIGNUP_SEEKER: "/register",
   SIGNUP_OWNER: "/register-owner",
   SIGNUP_ADMIN: "/register-admin",

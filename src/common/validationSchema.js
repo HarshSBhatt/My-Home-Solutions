@@ -38,7 +38,29 @@ export const SignupSchema = yup.object().shape({
     .required("Password is required")
     .matches(
       REGEX.PASSWORD,
-      "Passwor,d must contain combination of at least 1 lowercase, 1 uppercase, 1 special characters and numbers"
+      "Password must contain combination of at least 1 lowercase, 1 uppercase, 1 special characters and numbers"
+    ),
+  passwordConfirmation: yup
+    .string()
+    .required("Confirm password is required")
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
+});
+
+export const ForgotPasswordSchema = yup.object().shape({
+  email: yup
+    .string()
+    .trim()
+    .required("Email is required")
+    .email("Please enter valid email"),
+});
+
+export const ResetPasswordSchema = yup.object().shape({
+  password: yup
+    .string()
+    .required("Password is required")
+    .matches(
+      REGEX.PASSWORD,
+      "Password must contain combination of at least 1 lowercase, 1 uppercase, 1 special characters and numbers"
     ),
   passwordConfirmation: yup
     .string()

@@ -14,6 +14,7 @@ import Homepage from "modules/home";
 import ForgotPassword from "modules/auth/components/ForgotPassword";
 import { AppContext } from "AppContext";
 import jwtDecode from "jwt-decode";
+import ResetPassword from "modules/auth/components/ResetPassword";
 
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
@@ -46,6 +47,10 @@ function Routing() {
     {
       pageLink: ROUTES.FORGOT_PASSWORD,
       view: ForgotPassword,
+    },
+    {
+      pageLink: ROUTES.RESET_PASSWORD,
+      view: ResetPassword,
     },
     {
       pageLink: ROUTES.ERROR,
