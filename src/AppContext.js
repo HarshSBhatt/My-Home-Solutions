@@ -1,10 +1,12 @@
+// Author: Harsh Bhatt (B00877053)
+
 import { createContext, useReducer } from "react";
 
 //! User Files
 
 import * as ActionTypes from "common/actionTypes";
 import api from "common/api";
-import { TOKEN, USER, USER_ID } from "common/constants";
+import { ROLE, TOKEN, USER, USER_ID } from "common/constants";
 
 const getLoggedInUser = () => {
   let loggedInUser = localStorage.getItem(USER);
@@ -18,11 +20,18 @@ const getUserId = () => {
     : "";
 };
 
+const getRole = () => {
+  return localStorage.getItem(ROLE)
+    ? localStorage.getItem(ROLE)
+    : "room_seeker";
+};
+
 const initialState = {
   currentUser: getLoggedInUser() || {},
   userId: getUserId(),
   authToken: localStorage.getItem(TOKEN),
   authenticated: false,
+  role: getRole(),
 };
 
 const reducer = (state, action) => {
@@ -43,6 +52,9 @@ const reducer = (state, action) => {
     case ActionTypes.SET_TOKEN:
       localStorage.setItem(TOKEN, action.data);
       return { ...state, authToken: action.data };
+    case ActionTypes.SET_ROLE:
+      localStorage.setItem(ROLE, action.data);
+      return { ...state, role: action.data };
     //! LOGOUT
     case ActionTypes.LOGOUT:
       delete api.defaults.headers.common.Authorization;
@@ -67,8 +79,7 @@ function AppContextProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const getToken = () => {
-    // TODO: Replace "Demo" with null after integration of auth functionality
-    return localStorage.getItem(TOKEN) || "Demo";
+    return localStorage.getItem(TOKEN) || null;
   };
 
   // eslint-disable-next-line
@@ -82,14 +93,17 @@ function AppContextProvider({ children }) {
     const token = authToken || getToken();
     const user = getCurrentUser();
     const userId = getUserId();
+    const role = getRole();
+
     if (token) {
       api.defaults.headers.common = {
-        Authorization: `Bearer ${token}`,
+        Authorization: token,
       };
       dispatch({ type: ActionTypes.SET_TOKEN, data: token });
       dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
       dispatch({ type: ActionTypes.SET_CURRENT_USER, data: user });
       dispatch({ type: ActionTypes.SET_USER_ID, data: userId });
+      dispatch({ type: ActionTypes.SET_ROLE, data: role });
     }
   };
 
