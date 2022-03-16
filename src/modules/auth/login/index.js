@@ -10,17 +10,18 @@ import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as ActionTypes from "common/actionTypes";
+import jwtDecode from "jwt-decode";
 
 import React, { useState, forwardRef, useEffect } from "react";
 import logo from "assets/images/logo.png";
 import api from "common/api";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "AppContext";
 import { useContext } from "react";
 import { LoginSchema } from "common/validationSchema";
-import { ROUTES } from "common/constants";
+import { ROLES, ROUTES } from "common/constants";
 
 const EAlert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -69,22 +70,49 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const roles = [
+  {
+    name: ROLES.ROOM_SEEKER,
+    route: ROUTES.LOGIN_SEEKER,
+  },
+  {
+    name: ROLES.ROOM_OWNER,
+    route: ROUTES.LOGIN_OWNER,
+  },
+  {
+    name: ROLES.SUPER_ADMIN,
+    route: ROUTES.LOGIN_ADMIN,
+  },
+];
+
+const currentRole = {
+  "/login": "login-room-seeker",
+  "/login-owner": "login-room-owner",
+  "/login-admin": "login-super-admin",
+};
+
 function Login() {
+  const { pathname } = useLocation();
   const {
     state: { authenticated },
     dispatch,
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
+  const [loginRoles, setLoginRoles] = useState(roles);
+  const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
   const classes = useStyles();
   const navigate = useNavigate();
+
+  const filterRole = (path) => roles.filter((role) => role.route !== path);
 
   useEffect(() => {
     if (authenticated) {
       navigate("/");
     }
+    setLoginRoles(filterRole(pathname));
     // eslint-disable-next-line
-  }, [authenticated]);
+  }, [authenticated, pathname]);
 
   const {
     register,
@@ -97,14 +125,18 @@ function Login() {
   const onSubmit = async (formData) => {
     setLoading(true);
     try {
-      const res = await api.post("/users/login", formData);
+      const res = await api.post(`/users/${currentRole[pathname]}`, formData);
       const { data } = res;
-      if (data.status === true) {
-        dispatch({ type: ActionTypes.SET_CURRENT_USER, data: formData.email });
-        dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
-      }
+      const decoded = jwtDecode(data.token);
+
+      dispatch({ type: ActionTypes.SET_TOKEN, data: data.token });
+      dispatch({ type: ActionTypes.SET_CURRENT_USER, data: data });
+      dispatch({ type: ActionTypes.SET_USER_ID, data: decoded.user_id });
+      dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
+      dispatch({ type: ActionTypes.SET_ROLE, data: data.role });
     } catch (error) {
       setOpen(true);
+      setError(error.response?.data.message);
     } finally {
       setLoading(false);
     }
@@ -122,7 +154,7 @@ function Login() {
     <Box className={classes.root} container>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <EAlert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          Invalid email or password
+          {error}
         </EAlert>
       </Snackbar>
       <div className={classes.paper}>
@@ -133,14 +165,16 @@ function Login() {
           <Grid className={classes.formGrid} container spacing={3}>
             <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
-                {...register("email")}
+                {...register("usernameOrEmail")}
                 variant="outlined"
                 fullWidth
-                label="Email"
-                name="email"
+                label="Username or Email"
+                name="usernameOrEmail"
                 autoComplete="off"
-                error={!!errors.email}
-                helperText={errors.email ? errors.email.message : ""}
+                error={!!errors.usernameOrEmail}
+                helperText={
+                  errors.usernameOrEmail ? errors.usernameOrEmail.message : ""
+                }
               />
             </Grid>
             <Grid className={classes.inputGrid} item xs={12} sm={12}>
@@ -175,6 +209,22 @@ function Login() {
             </Button>
           </Box>
         </form>
+        {loginRoles.map((role) => (
+          <Box py={2} key={role.route}>
+            <Divider>
+              <Typography variant="caption" component="div">
+                Or
+              </Typography>
+            </Divider>
+            <Box pt={2} display="flex" justifyContent="center">
+              <Link to={role.route}>
+                <Typography variant="subtitle2" component="div">
+                  Login as {role.name}
+                </Typography>
+              </Link>
+            </Box>
+          </Box>
+        ))}
         <Box py={2}>
           <Divider>
             <Typography variant="caption" component="div">
@@ -182,7 +232,7 @@ function Login() {
             </Typography>
           </Divider>
           <Box pt={2} display="flex" justifyContent="center">
-            <Link to={ROUTES.SIGNUP}>
+            <Link to={ROUTES.SIGNUP_SEEKER}>
               <Typography variant="subtitle2" component="div">
                 Don't have an account? Signup
               </Typography>

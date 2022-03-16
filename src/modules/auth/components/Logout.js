@@ -12,7 +12,7 @@ const Logout = () => {
   const navigate = useNavigate();
   useEffect(() => {
     dispatch({ type: ActionTypes.LOGOUT });
-    navigate(ROUTES.LOGIN);
+    navigate(ROUTES.LOGIN_SEEKER);
     // eslint-disable-next-line
   }, []);
 

@@ -6,6 +6,6 @@ import { AppContext } from "./AppContext";
 const PrivateRoute = () => {
   const { getToken } = useContext(AppContext);
   const idToken = getToken();
-  return !idToken ? <Navigate to={ROUTES.LOGIN} /> : <Outlet />;
+  return !idToken ? <Navigate to={ROUTES.LOGIN_SEEKER} /> : <Outlet />;
 };
 export default PrivateRoute;
