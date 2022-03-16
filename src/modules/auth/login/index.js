@@ -136,7 +136,11 @@ function Login() {
       dispatch({ type: ActionTypes.SET_ROLE, data: data.role });
     } catch (error) {
       setOpen(true);
-      setError(error.response?.data.message);
+      if (error.response?.data) {
+        setError(error.response.data.message);
+      } else {
+        setError(error.message);
+      }
     } finally {
       setLoading(false);
     }

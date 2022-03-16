@@ -9,7 +9,6 @@ import {
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as ActionTypes from "common/actionTypes";
 
 import React, { useState, forwardRef, useEffect } from "react";
 import logo from "assets/images/logo.png";
@@ -69,15 +68,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const currentRole = {
+  "/register": "register-room-seeker",
+  "/register-owner": "register-room-owner",
+  "/register-admin": "register-super-admin",
+};
+
 function Signup() {
   const { pathname } = useLocation();
   const {
     state: { authenticated },
-    dispatch,
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState(ROLES.ROOM_SEEKER);
   const [route, setRoute] = useState(ROUTES.SIGNUP_SEEKER);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [open, setOpen] = useState(false);
   const classes = useStyles();
   const navigate = useNavigate();
@@ -108,14 +114,25 @@ function Signup() {
   const onSubmit = async (formData) => {
     setLoading(true);
     try {
-      const res = await api.post("/users/login", formData);
+      const res = await api.post(`/users/${currentRole[pathname]}`, formData);
       const { data } = res;
-      if (data.status === true) {
-        dispatch({ type: ActionTypes.SET_CURRENT_USER, data: formData.email });
-        dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
+
+      if (data.success) {
+        setOpen(true);
+        setSuccess(data.message);
+        setError("");
+        setTimeout(() => {
+          navigate(ROUTES.LOGIN_SEEKER);
+        }, 4000);
       }
     } catch (error) {
       setOpen(true);
+      if (error.response?.data) {
+        setError(error.response.data.message);
+      } else {
+        setError(error.message);
+      }
+      setSuccess("");
     } finally {
       setLoading(false);
     }
@@ -131,11 +148,20 @@ function Signup() {
 
   return (
     <Box className={classes.root} container>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <EAlert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          Invalid email or password
-        </EAlert>
-      </Snackbar>
+      {error && (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <EAlert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            {error}
+          </EAlert>
+        </Snackbar>
+      )}
+      {success && (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <EAlert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
+            {success}
+          </EAlert>
+        </Snackbar>
+      )}
       <div className={classes.paper}>
         <Box pb={3} display="flex" justifyContent="center">
           <img src={logo} alt="My Home" height={80} />
