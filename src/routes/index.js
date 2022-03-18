@@ -18,6 +18,8 @@ import { AppContext } from "AppContext";
 import jwtDecode from "jwt-decode";
 import ResetPassword from "modules/auth/components/ResetPassword";
 import AccountActivation from "modules/auth/components/AccountActivation";
+import Logout from "modules/auth/components/Logout";
+import Header from "app/components/Header";
 
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
@@ -60,6 +62,10 @@ function Routing() {
       view: AccountActivation,
     },
     {
+      pageLink: ROUTES.LOGOUT,
+      view: Logout,
+    },
+    {
       pageLink: ROUTES.ERROR,
       view: Error,
     },
@@ -99,7 +105,12 @@ function Routing() {
     </Routes>
   );
 
-  return <div className="container">{routes}</div>;
+  return (
+    <div className="container">
+      {location.pathname === ROUTES.HOME && <Header />}
+      {routes}
+    </div>
+  );
 }
 
 export default Routing;

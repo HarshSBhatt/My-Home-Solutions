@@ -17,8 +17,10 @@ export const ROUTES = {
   // Dashboard Routes
   MAIN: "/app/*",
   DASHBOARD: "/",
-  TEST: "/test",
+  MY_ACCOUNT: "/my-account",
   USERS_MANAGEMENT: "/users",
+  SETTINGS: "/settings",
+  PROFILE: "/profile",
   // MISC
   UNKNOWN: "*",
   ERROR: "/error",
