@@ -69,3 +69,46 @@ export const ResetPasswordSchema = yup.object().shape({
     .required("Confirm password is required")
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
+
+export const ChangePasswordSchema = yup.object().shape({
+  oldPassword: yup.string().required("Please Enter your password"),
+  newPassword: yup
+    .string()
+    .required("Password is required")
+    .matches(
+      REGEX.PASSWORD,
+      "Password must contain combination of at least 1 lowercase, 1 uppercase, 1 special characters and numbers"
+    ),
+  passwordConfirmation: yup
+    .string()
+    .required("Confirm password is required")
+    .oneOf([yup.ref("newPassword"), null], "Passwords must match"),
+});
+
+export const ProfileSchema = yup.object().shape({
+  firstName: yup
+    .string()
+    .trim()
+    .required("First name is required")
+    .min(3, "First name should be at least 2 characters")
+    .max(20, "First name should be at most 20 characters"),
+  lastName: yup
+    .string()
+    .trim()
+    .required("Last name is required")
+    .min(3, "Last name should be at least 2 characters")
+    .max(20, "Last name should be at most 20 characters"),
+  phoneNumber: yup
+    .string()
+    .trim()
+    .required("Phone number is required")
+    .matches(REGEX.PHONE, "Invalid phone number"),
+  address: yup.string().trim().required("Address is required"),
+  city: yup.string().trim(),
+  province: yup.string().trim().required("Province is required"),
+  postalCode: yup
+    .string()
+    .trim()
+    .required("Postal code is required")
+    .matches(REGEX.ZIPCODE, "Invalid postal code"),
+});

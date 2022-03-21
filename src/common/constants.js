@@ -17,8 +17,10 @@ export const ROUTES = {
   // Dashboard Routes
   MAIN: "/app/*",
   DASHBOARD: "/",
-  TEST: "/test",
+  MY_ACCOUNT: "/my-account",
   USERS_MANAGEMENT: "/users",
+  SETTINGS: "/settings",
+  PROFILE: "/profile",
   // MISC
   UNKNOWN: "*",
   ERROR: "/error",
@@ -30,6 +32,11 @@ export const USER = "USER";
 export const ADMIN = "ADMIN";
 export const USER_ID = "USER_ID";
 export const ROLE = "ROLE";
+export const gender = {
+  male: "Male",
+  female: "Female",
+  prefer_not_to_say: "N/A",
+};
 
 export const ROLES = {
   SUPER_ADMIN: "Admin",

@@ -30,3 +30,9 @@ code {
   align-items: center;
   justify-content: center;
 }
+
+.edit-profile-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
