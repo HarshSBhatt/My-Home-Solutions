@@ -9,7 +9,6 @@ function PageHeading({ Icon, heading }) {
       <Box>
         <Box
           py={4}
-          px={2}
           sx={{
             width: "100%",
             maxWidth: 800,
@@ -20,7 +19,7 @@ function PageHeading({ Icon, heading }) {
           <Typography
             variant="h4"
             component="div"
-            sx={{ display: "flex", alignItems: "center" }}
+            sx={{ display: "flex", alignItems: "center", paddingX: 2 }}
           >
             <Icon fontSize="large" sx={{ marginRight: 1 }} /> {heading}
           </Typography>
