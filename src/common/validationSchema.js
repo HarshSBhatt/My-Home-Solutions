@@ -69,3 +69,18 @@ export const ResetPasswordSchema = yup.object().shape({
     .required("Confirm password is required")
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
+
+export const ChangePasswordSchema = yup.object().shape({
+  oldPassword: yup.string().required("Please Enter your password"),
+  newPassword: yup
+    .string()
+    .required("Password is required")
+    .matches(
+      REGEX.PASSWORD,
+      "Password must contain combination of at least 1 lowercase, 1 uppercase, 1 special characters and numbers"
+    ),
+  passwordConfirmation: yup
+    .string()
+    .required("Confirm password is required")
+    .oneOf([yup.ref("newPassword"), null], "Passwords must match"),
+});
