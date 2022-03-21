@@ -3,9 +3,9 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import React from "react";
 
-function Loading({ message = "" }) {
+function Loading({ message = "", className = "loading-wrapper" }) {
   return (
-    <div className="loading-wrapper">
+    <div className={className}>
       <Box
         sx={{
           display: "flex",

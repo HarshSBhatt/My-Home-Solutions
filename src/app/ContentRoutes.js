@@ -3,7 +3,6 @@
 import { ROUTES } from "common/constants";
 import Dashboard from "modules/dashboard";
 import Profile from "modules/profile";
-import MyAccount from "modules/profile/components/MyAccount";
 import Settings from "modules/settings";
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -21,10 +20,6 @@ function ContentRoutes() {
     {
       pageLink: ROUTES.PROFILE,
       view: Profile,
-    },
-    {
-      pageLink: ROUTES.MY_ACCOUNT,
-      view: MyAccount,
     },
   ];
   //! Note: All the private routes will be defined here

@@ -62,7 +62,7 @@ import { Button } from "@mui/material";
 
 export default function Header() {
   const {
-    state: { authenticated },
+    state: { authenticated, currentUser },
   } = useContext(AppContext);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -204,6 +204,7 @@ export default function Header() {
         mobileMoreAnchorEl={mobileMoreAnchorEl}
         isMobileMenuOpen={isMobileMenuOpen}
         handleMenuItemClick={handleMenuItemClick}
+        currentUser={currentUser}
       />
 
       <DesktopMenu
@@ -211,6 +212,7 @@ export default function Header() {
         isMenuOpen={isMenuOpen}
         anchorEl={anchorEl}
         handleMenuItemClick={handleMenuItemClick}
+        currentUser={currentUser}
       />
     </Box>
   );

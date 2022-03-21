@@ -133,10 +133,10 @@ function Login() {
       const decoded = jwtDecode(data.token);
 
       dispatch({ type: ActionTypes.SET_TOKEN, data: data.token });
-      dispatch({ type: ActionTypes.SET_CURRENT_USER, data: data });
+      dispatch({ type: ActionTypes.SET_CURRENT_USER, data: decoded });
       dispatch({ type: ActionTypes.SET_USER_ID, data: decoded.user_id });
       dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
-      dispatch({ type: ActionTypes.SET_ROLE, data: data.role });
+      dispatch({ type: ActionTypes.SET_ROLE, data: decoded.role });
     } catch (error) {
       setOpen(true);
       if (error.response?.data) {

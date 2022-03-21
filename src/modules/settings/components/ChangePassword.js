@@ -26,14 +26,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  paper: {
-    width: "100%",
-    backgroundColor: "#fff",
-    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-    padding: theme.spacing(2),
-    boxShadow: "rgb(100 116 139 / 12%) 0px 10px 15px",
-    borderRadius: 8,
-  },
   form: {
     width: "100%",
   },

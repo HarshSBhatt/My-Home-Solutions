@@ -11,6 +11,7 @@ import PageHeading from "common/PageHeading";
 import { Box } from "@mui/system";
 import { makeStyles } from "@mui/styles";
 import ChangePassword from "./components/ChangePassword";
+import EditProfile from "./components/EditProfile";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -68,7 +69,9 @@ function Settings() {
                 Edit Profile
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>Load Edit Profile Form here</AccordionDetails>
+            <AccordionDetails>
+              <EditProfile />
+            </AccordionDetails>
           </Accordion>
         </div>
       </Box>

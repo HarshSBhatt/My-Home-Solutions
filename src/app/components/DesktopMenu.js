@@ -3,7 +3,7 @@
 import React from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { Avatar, Divider, ListItemIcon } from "@mui/material";
+import { Avatar, Divider, ListItemIcon, Typography } from "@mui/material";
 import { Logout, Settings as Setting } from "@mui/icons-material";
 import { ROUTES } from "common/constants";
 
@@ -12,7 +12,12 @@ function DesktopMenu({
   isMenuOpen,
   anchorEl,
   handleMenuItemClick,
+  currentUser,
 }) {
+  const handleDetailClick = (event) => {
+    event.stopPropagation();
+  };
+
   return (
     <>
       <Menu
@@ -50,15 +55,21 @@ function DesktopMenu({
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
+        <MenuItem onClick={handleDetailClick} disableTouchRipple>
+          <Typography>
+            <strong>
+              {currentUser.firstName} {currentUser.lastName}
+            </strong>
+          </Typography>
+        </MenuItem>
+        <MenuItem onClick={handleDetailClick} disableTouchRipple>
+          <Typography>{currentUser.email}</Typography>
+        </MenuItem>
+        <Divider />
         <MenuItem
           onClick={(event) => handleMenuItemClick(event, ROUTES.PROFILE)}
         >
           <Avatar /> Profile
-        </MenuItem>
-        <MenuItem
-          onClick={(event) => handleMenuItemClick(event, ROUTES.MY_ACCOUNT)}
-        >
-          <Avatar /> My account
         </MenuItem>
         <Divider />
         <MenuItem

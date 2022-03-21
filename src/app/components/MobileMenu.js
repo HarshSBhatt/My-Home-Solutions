@@ -9,6 +9,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Logout, Settings } from "@mui/icons-material";
 import { ROUTES } from "common/constants";
+import { Divider, Typography } from "@mui/material";
 
 function MobileMenu({
   handleMobileMenuClose,
@@ -16,8 +17,13 @@ function MobileMenu({
   mobileMoreAnchorEl,
   isMobileMenuOpen,
   handleMenuItemClick,
+  currentUser,
 }) {
   const mobileMenuId = "primary-search-account-menu-mobile";
+  const handleDetailClick = (event) => {
+    event.stopPropagation();
+  };
+
   return (
     <>
       <Menu
@@ -35,6 +41,17 @@ function MobileMenu({
         open={isMobileMenuOpen}
         onClose={handleMobileMenuClose}
       >
+        <MenuItem onClick={handleDetailClick} disableTouchRipple>
+          <Typography>
+            <strong>
+              {currentUser.firstName} {currentUser.lastName}
+            </strong>
+          </Typography>
+        </MenuItem>
+        <MenuItem onClick={handleDetailClick} disableTouchRipple>
+          <Typography>{currentUser.email}</Typography>
+        </MenuItem>
+        <Divider />
         <MenuItem>
           <IconButton
             size="large"
