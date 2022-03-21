@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField } from "@mui/material";
+import { Box, Button, Grid, MenuItem, Select, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -73,7 +73,6 @@ function EditProfile() {
         formData
       );
       const { data } = res;
-
       if (data.success) {
         setOpen(true);
         setSuccess(data.message);
@@ -173,6 +172,22 @@ function EditProfile() {
               autoComplete="off"
               defaultValue={currentUser.email}
             />
+          </Grid>
+          <Grid className={classes.inputGrid} item xs={12} sm={12}>
+            <Select
+              {...register("gender")}
+              sx={{ width: "100%" }}
+              labelId="gender-label"
+              id="demo-simple-select"
+              defaultValue={currentUser.gender}
+              error={!!errors.gender}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+            >
+              <MenuItem value="male">Male</MenuItem>
+              <MenuItem value="female">Female</MenuItem>
+              <MenuItem value="prefer_not_to_say">Prefer not to say</MenuItem>
+            </Select>
           </Grid>
           <Grid className={classes.inputGrid} item xs={12} sm={12}>
             <TextField

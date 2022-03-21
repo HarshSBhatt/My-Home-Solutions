@@ -105,6 +105,7 @@ export const ProfileSchema = yup.object().shape({
     .matches(REGEX.PHONE, "Invalid phone number"),
   address: yup.string().trim().required("Address is required"),
   city: yup.string().trim(),
+  gender: yup.string().trim().required("Gender is required"),
   province: yup.string().trim().required("Province is required"),
   postalCode: yup
     .string()
