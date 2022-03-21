@@ -1,21 +1,15 @@
 // Author: Harsh Bhatt (B00877053)
 
 import { AccountCircle } from "@mui/icons-material";
-import {
-  Box,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, List, Snackbar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import api from "common/api";
 import { gender, ROUTES } from "common/constants";
 import PageHeading from "common/PageHeading";
 import Loading from "components/Loading";
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import MuiAlert from "@mui/material/Alert";
 import ListUserData from "./components/ListUserData";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,11 +25,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const EAlert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 function Profile() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [open, setOpen] = useState(false);
 
   const classes = useStyles();
@@ -47,7 +44,6 @@ function Profile() {
 
       if (data.success) {
         setOpen(true);
-        setSuccess(data.message);
         setError("");
         setUser(data.user);
       }
@@ -58,10 +54,17 @@ function Profile() {
       } else {
         setError(error.message);
       }
-      setSuccess("");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -75,6 +78,13 @@ function Profile() {
   if (loading) return <Loading message="Loading your profile" />;
   return (
     <div>
+      {error && (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <EAlert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            {error}
+          </EAlert>
+        </Snackbar>
+      )}
       <PageHeading Icon={AccountCircle} heading="Profile" />
       <Box className={classes.container}>
         <Box display="flex" justifyContent="flex-end">
