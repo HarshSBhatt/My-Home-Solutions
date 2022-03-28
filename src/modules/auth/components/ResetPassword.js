@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   paper: {
+    width: "100%",
     backgroundColor: "#fff",
     transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     padding: theme.spacing(4),

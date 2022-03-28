@@ -2,6 +2,8 @@
 
 import { ROUTES } from "common/constants";
 import Dashboard from "modules/dashboard";
+import Profile from "modules/profile";
+import Settings from "modules/settings";
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
@@ -10,6 +12,14 @@ function ContentRoutes() {
     {
       pageLink: ROUTES.DASHBOARD,
       view: Dashboard,
+    },
+    {
+      pageLink: ROUTES.SETTINGS,
+      view: Settings,
+    },
+    {
+      pageLink: ROUTES.PROFILE,
+      view: Profile,
     },
   ];
   //! Note: All the private routes will be defined here

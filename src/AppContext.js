@@ -50,6 +50,9 @@ const reducer = (state, action) => {
     case ActionTypes.SET_AUTHENTICATED:
       return { ...state, authenticated: action.data };
     case ActionTypes.SET_TOKEN:
+      api.defaults.headers.common = {
+        Authorization: `Bearer ${action.data}`,
+      };
       localStorage.setItem(TOKEN, action.data);
       return { ...state, authToken: action.data };
     case ActionTypes.SET_ROLE:
@@ -97,7 +100,7 @@ function AppContextProvider({ children }) {
 
     if (token) {
       api.defaults.headers.common = {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
       };
       dispatch({ type: ActionTypes.SET_TOKEN, data: token });
       dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
