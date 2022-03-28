@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Settings as Setting } from "@mui/icons-material";
 import React, { useState } from "react";
-import PageHeading from "common/PageHeading";
+import PageHeading from "components/PageHeading";
 import { Box } from "@mui/system";
 import { makeStyles } from "@mui/styles";
 import ChangePassword from "./components/ChangePassword";
