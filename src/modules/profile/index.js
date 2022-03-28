@@ -5,7 +5,7 @@ import { Box, Divider, List, Snackbar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import api from "common/api";
 import { gender, ROUTES } from "common/constants";
-import PageHeading from "common/PageHeading";
+import PageHeading from "components/PageHeading";
 import Loading from "components/Loading";
 import React, { forwardRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
