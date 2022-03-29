@@ -1,14 +1,20 @@
 // Author: Harsh Bhatt (B00877053)
 
 import { ROUTES } from "common/constants";
+import admin from "modules/admin";
 import Dashboard from "modules/dashboard";
 import Profile from "modules/profile";
 import Settings from "modules/settings";
+import AdminDashboard from "modules/admin";
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Reserve from "../modules/reserve/components/Reserve";
 import BookingConfirmation from "../modules/reserve/components/BookingConfirmation";
 import MyBookings from "../modules/reserve/components/MyBookings";
+import ListRoomOwners from "modules/admin/components/ListRoomOwners";
+import ListRoomSeekers from "modules/admin/components/ListRoomSeekers";
+import UnverifiedUser from "modules/admin/components/UnverifiedUser";
+import RejectedUser from "modules/admin/components/RejectedUser";
 
 function ContentRoutes() {
   const privatePages = [
@@ -37,6 +43,27 @@ function ContentRoutes() {
       view: BookingConfirmation,
     },
 
+    //Author: Arunkumar Gauda - B00871355
+    {
+      pageLink: ROUTES.ADMINDASHBOARD,
+      view: AdminDashboard,
+    },
+    {
+      pageLink: ROUTES.LISTROOMOWNERS,
+      view: ListRoomOwners,
+    },
+    {
+      pageLink: ROUTES.LISTROOMSEEKERS,
+      view: ListRoomSeekers,
+    },
+    {
+      pageLink: ROUTES.UNVERIFIEDROOMOWNERS,
+      view: UnverifiedUser,
+    },
+    {
+      pageLink: ROUTES.REJECTEDUSERS,
+      view: RejectedUser,
+    },
   ];
   //! Note: All the private routes will be defined here
   const renderRoutes = (

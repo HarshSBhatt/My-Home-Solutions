@@ -27,6 +27,13 @@ export const ROUTES = {
   // MISC
   UNKNOWN: "*",
   ERROR: "/error",
+  //Author Arunkumar Gauda - B00871355
+  //Admin Routes
+  ADMINDASHBOARD: "/admin-dashboard",
+  LISTROOMOWNERS: "/admin-room-owners",
+  LISTROOMSEEKERS: "/admin-room-seekers",
+  UNVERIFIEDROOMOWNERS: "/admin-unverified-room-owners",
+  REJECTEDUSERS: "/admin-rejectedusers",
 };
 
 /* Authentication */
@@ -35,6 +42,9 @@ export const USER = "USER";
 export const ADMIN = "ADMIN";
 export const USER_ID = "USER_ID";
 export const ROLE = "ROLE";
+export const ROOM_OWNER = "room_owner";
+export const ROOM_SEEKER = "room_seeker";
+export const SUPER_ADMIN = "super_admin";
 export const gender = {
   male: "Male",
   female: "Female",
