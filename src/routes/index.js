@@ -7,7 +7,7 @@ import { Navigate, Routes, Route, useLocation } from "react-router-dom";
 
 import * as ActionTypes from "common/actionTypes";
 import App from "app/App";
-import Error from "common/Error";
+import Error from "components/Error";
 import { ROUTES, TOKEN } from "common/constants";
 import Login from "modules/auth/login";
 import Signup from "modules/auth/signup";
@@ -123,7 +123,7 @@ function Routing() {
   return (
     <div className="container">
       {location.pathname === ROUTES.HOME && <Header />}
-      {routes}
+      <div className="public-route-wrapper">{routes}</div>
     </div>
   );
 }
