@@ -4,6 +4,9 @@ import { ROUTES } from "common/constants";
 import Dashboard from "modules/dashboard";
 import Profile from "modules/profile";
 import Settings from "modules/settings";
+import RoomOwner from "modules/room_owner/components/AddProperty";
+import MyListings from "modules/room_owner/components/MyListings";
+import EditListing from "modules/room_owner/components/EditListing";
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
@@ -20,6 +23,18 @@ function ContentRoutes() {
     {
       pageLink: ROUTES.PROFILE,
       view: Profile,
+    },
+    {
+      pageLink: ROUTES.ROOM_OWNER_PATH,
+      view: RoomOwner,
+    },
+    {
+      pageLink: ROUTES.ROOM_OWNER_LISTINGS_PATH,
+      view: MyListings,
+    },
+    {
+      pageLink: ROUTES.EDIT_LISTING_PATH,
+      view: EditListing,
     },
   ];
   //! Note: All the private routes will be defined here

@@ -21,9 +21,13 @@ export const ROUTES = {
   USERS_MANAGEMENT: "/users",
   SETTINGS: "/settings",
   PROFILE: "/profile",
+  ROOM_OWNER_PATH: "/room-owner",
+  ROOM_OWNER_LISTINGS_PATH: "/room-owner-listings",
+  EDIT_LISTING_PATH: "/edit-listing/:id",
   // MISC
   UNKNOWN: "*",
   ERROR: "/error",
+ 
 };
 
 /* Authentication */

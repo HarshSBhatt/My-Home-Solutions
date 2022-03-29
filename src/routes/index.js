@@ -20,6 +20,9 @@ import ResetPassword from "modules/auth/components/ResetPassword";
 import AccountActivation from "modules/auth/components/AccountActivation";
 import Logout from "modules/auth/components/Logout";
 import Header from "app/components/Header";
+// import RoomOwner from "modules/room_owner/components/AddProperty";
+// import MyListings from "modules/room_owner/components/MyListings";
+// import EditListing from "modules/room_owner/components/EditListing";
 
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
@@ -69,6 +72,18 @@ function Routing() {
       pageLink: ROUTES.ERROR,
       view: Error,
     },
+    // {
+    //   pageLink: ROUTES.ROOM_OWNER_PATH,
+    //   view: RoomOwner,
+    // },
+    // {
+    //   pageLink: ROUTES.ROOM_OWNER_LISTINGS_PATH,
+    //   view: MyListings,
+    // },
+    // {
+    //   pageLink: ROUTES.EDIT_LISTING_PATH,
+    //   view: EditListing,
+    // },
   ];
 
   useEffect(() => {
