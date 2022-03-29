@@ -8,6 +8,7 @@ import {
   CardContent,
   Grid,
   Snackbar,
+  TextField,
   Typography,
 } from "@mui/material";
 import { AppContext } from "AppContext";
@@ -21,6 +22,7 @@ function RejectedUser() {
   const [user, setUser] = useState([]);
   const [response, setResponse] = useState([]);
   const [open, setOpen] = useState(false);
+  const [showdata, setShowData] = useState([]);
   useEffect(async () => {
     const res = await api.get("/superadmin/rejectedusers", {
       headers: {
@@ -29,6 +31,7 @@ function RejectedUser() {
     });
     const users = res.data.users;
     setUser(users);
+    setShowData(users);
   }, []);
 
   const handleClick = (_id) => {
@@ -46,11 +49,27 @@ function RejectedUser() {
         setOpen(true);
         setResponse(res.data.message);
         setUser(user.filter((u) => u._id !== _id));
+        setShowData(user.filter((u) => u._id !== _id));
       });
   };
 
+  const handleSearchChange = (e) => {
+    let newList = user.filter(
+      (ele) =>
+        ele.firstName.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        ele.lastName.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setShowData(newList);
+  };
   return (
     <Box padding="2rem" bgcolor="#e9e9e9">
+      <TextField
+        placeholder="Enter To Search"
+        fullWidth
+        variant="outlined"
+        margin="normal"
+        onChange={handleSearchChange}
+      />
       <Typography
         textAlign="left"
         fontWeight="bold"
@@ -60,7 +79,7 @@ function RejectedUser() {
         Rejected Users
       </Typography>
       <Grid mt="2px" container spacing={2} padding="2rem">
-        {user.map((ele) => (
+        {showdata.map((ele) => (
           <Grid key={ele.id} item lg={3} md={4} sm={6} xs={12}>
             <Card
               sx={{

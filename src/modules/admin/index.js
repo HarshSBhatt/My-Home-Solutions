@@ -24,12 +24,7 @@ function AdminDashboard() {
     <Grid mt="2px" container spacing={2} padding="2rem">
       <Grid item lg={3} md={4} sm={6} xs={12}>
         <Card
-          sx={{
-            minWidth: 275,
-            minheight: "10%",
-            border: "1px grey",
-            backgroundColor: "#fff",
-          }}
+          sx={{ minWidth: 275, minheight: "10%" }}
           variant="outlined"
           padding={2}
         >
