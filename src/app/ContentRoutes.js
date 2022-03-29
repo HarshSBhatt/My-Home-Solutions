@@ -27,7 +27,7 @@ function ContentRoutes() {
       pageLink: ROUTES.PROFILE,
       view: Profile,
     },
-    //Author Arunkumar Gauda - B00871355
+    //Author: Arunkumar Gauda - B00871355
     {
       pageLink: ROUTES.ADMINDASHBOARD,
       view: AdminDashboard,

@@ -1,4 +1,4 @@
-//Author Arunkumar Gauda - B00871355
+//Author: Arunkumar Gauda - B00871355
 import {
   Alert,
   Avatar,
