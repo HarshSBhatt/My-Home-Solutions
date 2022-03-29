@@ -5,8 +5,9 @@ import { createContext, useReducer } from "react";
 //! User Files
 
 import * as ActionTypes from "common/actionTypes";
-import api from "common/api";
+// import api from "common/api";
 import { ROLE, TOKEN, USER, USER_ID } from "common/constants";
+import axios from "axios";
 
 const getLoggedInUser = () => {
   let loggedInUser = localStorage.getItem(USER);
@@ -50,7 +51,7 @@ const reducer = (state, action) => {
     case ActionTypes.SET_AUTHENTICATED:
       return { ...state, authenticated: action.data };
     case ActionTypes.SET_TOKEN:
-      api.defaults.headers.common = {
+      axios.defaults.headers.common = {
         Authorization: `Bearer ${action.data}`,
       };
       localStorage.setItem(TOKEN, action.data);
@@ -60,7 +61,7 @@ const reducer = (state, action) => {
       return { ...state, role: action.data };
     //! LOGOUT
     case ActionTypes.LOGOUT:
-      delete api.defaults.headers.common.Authorization;
+      delete axios.defaults.headers.common.Authorization;
       localStorage.clear();
       return {
         ...initialState,
@@ -99,7 +100,7 @@ function AppContextProvider({ children }) {
     const role = getRole();
 
     if (token) {
-      api.defaults.headers.common = {
+      axios.defaults.headers.common = {
         Authorization: `Bearer ${token}`,
       };
       dispatch({ type: ActionTypes.SET_TOKEN, data: token });
