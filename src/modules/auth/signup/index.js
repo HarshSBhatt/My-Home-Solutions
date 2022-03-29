@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
   },
   formGrid: {
     display: "flex",
-    flexDirection: "column",
   },
   inputGrid: {
     margin: "16px 0px 8px",
