@@ -14,6 +14,9 @@ export const ROUTES = {
   SIGNUP_SEEKER: "/register",
   SIGNUP_OWNER: "/register-owner",
   SIGNUP_ADMIN: "/register-admin",
+  RESERVE: "/reserve",
+  BOOKING_CONFIRMATION : "/booking-confirmation",
+  MY_BOOKINGS: "/my-bookings",
   // Dashboard Routes
   MAIN: "/app/*",
   DASHBOARD: "/",

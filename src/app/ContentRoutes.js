@@ -6,6 +6,9 @@ import Profile from "modules/profile";
 import Settings from "modules/settings";
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import Reserve from "../modules/reserve/components/Reserve";
+import BookingConfirmation from "../modules/reserve/components/BookingConfirmation";
+import MyBookings from "../modules/reserve/components/MyBookings";
 
 function ContentRoutes() {
   const privatePages = [
@@ -21,6 +24,19 @@ function ContentRoutes() {
       pageLink: ROUTES.PROFILE,
       view: Profile,
     },
+    {
+      pageLink: ROUTES.RESERVE,
+      view: Reserve,
+    },
+    {
+      pageLink: ROUTES.MY_BOOKINGS,
+      view: MyBookings,
+    },
+    {
+      pageLink: ROUTES.BOOKING_CONFIRMATION,
+      view: BookingConfirmation,
+    },
+
   ];
   //! Note: All the private routes will be defined here
   const renderRoutes = (
