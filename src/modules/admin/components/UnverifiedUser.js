@@ -23,19 +23,27 @@ function UnverifiedUser() {
   const [response, setResponse] = useState([]);
   const [open, setOpen] = useState(false);
   const [showdata, setShowData] = useState([]);
-  useEffect(async () => {
-    const res = await api.get("/superadmin/unverifiedroomowners", {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    });
-    const users = res.data.user;
-    setUser(users);
-    setShowData(users);
+  const fetchUsers = async () => {
+    try {
+      const res = await api.get("/superadmin/unverifiedroomowners", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      const users = res.data.users;
+      setUser(users);
+      setShowData(users);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchUsers();
+    // eslint-disable-next-line
   }, []);
 
   const handleClick = (_id) => {
-    const res = api
+    api
       .put(
         `/superadmin/verifyroomowner/${_id}`,
         {},

@@ -23,19 +23,28 @@ function RejectedUser() {
   const [response, setResponse] = useState([]);
   const [open, setOpen] = useState(false);
   const [showdata, setShowData] = useState([]);
-  useEffect(async () => {
-    const res = await api.get("/superadmin/rejectedusers", {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    });
-    const users = res.data.users;
-    setUser(users);
-    setShowData(users);
+
+  const fetchUsers = async () => {
+    try {
+      const res = await api.get("/superadmin/rejectedusers", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      const users = res.data.users;
+      setUser(users);
+      setShowData(users);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchUsers();
+    // eslint-disable-next-line
   }, []);
 
   const handleClick = (_id) => {
-    const res = api
+    api
       .put(
         `/superadmin/approveuser/${_id}`,
         {},
@@ -50,6 +59,9 @@ function RejectedUser() {
         setResponse(res.data.message);
         setUser(user.filter((u) => u._id !== _id));
         setShowData(user.filter((u) => u._id !== _id));
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -104,7 +116,7 @@ function RejectedUser() {
                   </Typography>
                   <Typography color="text.secondary">{ele.email}</Typography>
                   <Typography color="text.secondary">
-                    {ele.role == "room_owner" ? "Room Owner" : "Room Seeker"}
+                    {ele.role === "room_owner" ? "Room Owner" : "Room Seeker"}
                   </Typography>
                 </Box>
                 <br></br>

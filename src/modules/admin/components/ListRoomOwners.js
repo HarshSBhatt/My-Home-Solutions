@@ -23,18 +23,27 @@ function ListRoomOwners() {
   const [showdata, setShowData] = useState([]);
   const [response, setResponse] = useState([]);
   const [open, setOpen] = useState(false);
-  useEffect(async () => {
-    const res = await api.get("/superadmin/allroomowners", {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    });
-    const users = res.data.user;
-    setUser(users);
-    setShowData(users);
+
+  const fetchUser = async () => {
+    try {
+      const res = await api.get("/superadmin/allroomowners", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      const users = res.data.user;
+      setUser(users);
+      setShowData(users);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchUser();
+    // eslint-disable-next-line
   }, []);
   const handleClick = (_id) => {
-    const res = api
+    api
       .put(
         `/superadmin/rejectuser/${_id}`,
         {},
