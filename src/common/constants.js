@@ -59,3 +59,9 @@ export const ROLES = {
   ROOM_OWNER: "Owner",
   ROOM_SEEKER: "Seeker",
 };
+
+export const defaultRoute = {
+  super_admin: `/app${ROUTES.ADMINDASHBOARD}`,
+  room_owner: `/`,
+  room_seeker: ROUTES.HOME,
+};

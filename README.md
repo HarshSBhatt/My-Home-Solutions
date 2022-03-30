@@ -10,10 +10,18 @@ Web Application Name - **My Home**
 - [Utsava Verma](mailto:ut752143@dal.ca)
 - [Sai Vaishnavi Jupudi](mailto:sv984706@dal.ca)
 
-## GitLab Group Repository (Frontend) - Web Master
+## GitLab Frontend Group Repository
 
 Frontend Group Repository: [https://git.cs.dal.ca/hbhatt/group2-csci5709-webmaster-frontend](https://git.cs.dal.ca/hbhatt/group2-csci5709-webmaster-frontend)
 
-## GitLab Group Repository (Backend) - Web Master
+## Group Frontend App Deployment URL:
+
+- URL: [https://myhome-5709-client.herokuapp.com/](https://myhome-5709-client.herokuapp.com/)
+
+## GitLab Backend Group Repository
 
 Backend Group Repository: [https://git.cs.dal.ca/hbhatt/group2-csci5709-webmaster-backend](https://git.cs.dal.ca/hbhatt/group2-csci5709-webmaster-backend)
+
+## Group Backend App Deployment URL:
+
+- URL: [https://myhome-5709-server.herokuapp.com/](https://myhome-5709-server.herokuapp.com/)
