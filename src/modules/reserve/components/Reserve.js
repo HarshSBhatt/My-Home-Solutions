@@ -14,8 +14,11 @@ import "./Reserve.css";
 import { Alert } from "@mui/lab";
 import api from "common/api";
 import { AppContext } from "AppContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Reserve() {
+
+  const navigate = useNavigate();
   const {
     state: { authToken },
   } = useContext(AppContext);
@@ -26,15 +29,16 @@ export default function Reserve() {
   const [success, setSuccess] = useState(false);
 
   const [propertyDetails, setPropertyDetails] = useState([]);
+  const [propertyId, setPropertyId] = useState('');
 
   function callProperties(event) {
     event.preventDefault();
     if (validateDate(event)) {
       api.get("/getProperty/get-property-details").then((response) => {
         const filteredData = response["data"].filter(
-          (property) =>
-            new Date(property.availabilityStartDate).getTime() <=
-            new Date(startDate).getTime()
+            (property) =>
+                new Date(property.availabilityStartDate).getTime() <=
+                new Date(startDate).getTime()
         );
         if (filteredData.length) {
           setPropertyDetails(filteredData || []);
@@ -59,23 +63,24 @@ export default function Reserve() {
     };
 
     api
-      .post("/cart/add", postData, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          setSuccess(true);
-          setTimeout(() => {
-            setSuccess(false);
-          }, 2000);
-        }
-      });
+        .post("/cart/add", postData, {
+          headers: { Authorization: `Bearer ${authToken}` },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            setPropertyId(id)
+            setSuccess(true);
+            setTimeout(() => {
+              setSuccess(false);
+            }, 2000);
+          }
+        });
   }
 
   // function callBooking(){
   //
   //     var sendData ={
-  //         cartId:"62421976deb7fe46e341ea6d"
+  //         cartId:"6243a364d824d41458d7702e"
   //     }
   //     api.post('booking/booking-confirmation', sendData).then(response => {
   //         navigate('/app/booking-confirmation', {
@@ -99,113 +104,114 @@ export default function Reserve() {
   function displayProperties() {
     if (propertyDetails) {
       return (
-        <>
-          {properties().map((data, id) => (
-            <Grid container spacing={2} columns={16} margin={10} key={id}>
-              <Grid item xs={12} md={6}>
-                {/*<Carousel>*/}
-                {/*    /!*{data.propertyPictures.map((picture) => <img key={picture} className="col" src={image1} alt="image" />)}*!/*/}
-                {/*    */}
-                {/*</Carousel>*/}
-                <img className="col" src={image1} alt="Not found" />
-              </Grid>
+          <>
+            <div className="prop-parent">
 
-              <Grid item xs={12} md={6} marginLeft={20} marginTop={10}>
-                <p>{data.propertyTitle}</p>
-                <p>{data._id}</p>
-                {/*<p>Available Rooms: {data.totalRooms}</p>*/}
-                <p>Rent: {data.rent} per month</p>
-                <p>
-                  {" "}
-                  Amenities Include:
-                  {data.amenities.map((amenity) => (
-                    <Button key={amenity} variant="text">
-                      {amenity}
-                    </Button>
-                  ))}
-                </p>
-                <Button
-                  variant="contained"
-                  onClick={() => addToCart(data._id, data.rent)}
-                >
-                  Add To Cart
-                </Button>
+              {properties().map((data, id) => (
+                  <div className="each-prop">
+                    <div className="prop-pic">
+                      {/*{/<Carousel>/}*/}
+                      {/*/!*    /!{data.propertyPictures.map((picture) => <img key={picture} className="col" src={image1} alt="image" />)}!/*!/*/}
+                      {/*/!*    *!/*/}
+                      {/*{/</Carousel>/}*/}
+                      <img className="col" src={image1} alt="Not found" />
+                    </div>
 
-                {success && (
-                  <Alert severity="success">
-                    Property has been added to cart
-                  </Alert>
-                )}
-              </Grid>
-            </Grid>
-          ))}
-        </>
+                    <div className="prop-desc">
+                      <p>{data.propertyTitle}</p>
+                      <p>Rent: {data.rent} per month</p>
+                      <p>
+                        {" "}
+                        Amenities Include:
+                        {data.amenities.map((amenity) => (
+                            <Button key={amenity} variant="text">
+                              {amenity}
+                            </Button>
+                        ))}
+                      </p>
+                      <Button
+                          variant="contained"
+                          onClick={() => addToCart(data._id, data.rent)}
+                      >
+                        Add To Cart
+                      </Button>
+
+                      {propertyId === data._id && success && (
+                          <Alert severity="success">
+                            Property has been added to cart
+                          </Alert>
+                      )}
+                    </div>
+                  </div>
+              ))}
+            </div>
+
+          </>
       );
     }
   }
   return (
-    <Grid
-      container
-      rowSpacing={1}
-      columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-      marginTop={3}
-    >
-      <Grid item xs={12} md={3}>
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="demo-simple-select-standard-label">
-            Room Type
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            label="Room Type"
-            value={roomType}
-            onChange={(e) => {
-              setRoomType(e.target.value);
-            }}
-          >
-            <MenuItem value="room">Room</MenuItem>
-            <MenuItem value="house">Entire House</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} md={3}>
-        <TextField
-          variant="outlined"
-          color="secondary"
-          type="date"
-          value={startDate}
-          onChange={(e) => {
-            setStartDate(e.target.value);
-          }}
-        />
-      </Grid>
-      <Grid item xs={12} md={3}>
-        <TextField
-          variant="outlined"
-          color="secondary"
-          type="date"
-          value={endDate}
-          onChange={(e) => {
-            setEndDate(e.target.value);
-          }}
-        />
-      </Grid>
-      <Grid item xs={12} md={3}>
-        <Button variant="contained" onClick={callProperties}>
-          Search
-        </Button>
-      </Grid>
-      {/*<Grid item xs={12} md={3}>*/}
-      {/*    <Button variant="contained" onClick={callBooking} >Test</Button>*/}
-      {/*</Grid>*/}
-      {error ? (
-        <div style={{ marginLeft: "5px" }}>
-          <Alert severity="error">{error} </Alert>{" "}
+      <div>
+        <div className="form-parent">
+          <div className="form-feild">
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">
+                Room Type
+              </InputLabel>
+              <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  label="Room Type"
+                  value={roomType}
+                  onChange={(e) => {
+                    setRoomType(e.target.value);
+                  }}
+              >
+                <MenuItem value="room">Room</MenuItem>
+                <MenuItem value="house">Entire House</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <div className="form-feild">
+            <TextField
+                variant="outlined"
+                color="secondary"
+                type="date"
+                value={startDate}
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                }}
+            />
+          </div>
+          <div className="form-feild">
+            <TextField
+                variant="outlined"
+                color="secondary"
+                type="date"
+                value={endDate}
+                onChange={(e) => {
+                  setEndDate(e.target.value);
+                }}
+            />
+          </div>
+          <div className="search">
+            <Button variant="contained" onClick={callProperties}>
+              Search
+            </Button>
+          </div>
+          {/*<Grid item xs={12} md={3}>*/}
+          {/*    <Button variant="contained" onClick={callBooking} >Test</Button>*/}
+          {/*</Grid>*/}
         </div>
-      ) : (
-        displayProperties()
-      )}
-    </Grid>
+
+        {error ? (
+            <div style={{ marginLeft: "5px" }}>
+              <Alert severity="error">{error} </Alert>{" "}
+            </div>
+        ) : (
+            displayProperties()
+        )}
+
+      </div>
   );
 }

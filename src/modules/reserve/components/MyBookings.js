@@ -61,11 +61,11 @@ export default function MyBookings() {
             marginTop={3}
             key={id}
           >
-            <Grid container spacing={2} columns={16} margin={10}>
-              <Grid item xs={12} md={6}>
-                <img className="col" src={image1} alt="Not found" />
+            <Grid container marginLeft={5} columns={16} >
+              <Grid item xs={12} md={5}>
+                <img className="col" src={image1} alt="Not found" width={400}/>
               </Grid>
-              <Grid item xs={12} md={6} marginLeft={30} marginTop={5}>
+              <Grid item xs={12} md={6} marginLeft={20} marginTop={5}>
                 <p>Booking Confirmed !</p>
                 <p> Booking id: {data._id}</p>
                 <p>Booking Amount: {data.bookingAmount}</p>
