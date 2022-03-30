@@ -166,7 +166,9 @@ function Signup() {
       )}
       <div className={classes.paper}>
         <Box pb={3} display="flex" justifyContent="center">
-          <img src={logo} alt="My Home" height={80} />
+          <Link to={ROUTES.HOME}>
+            <img src={logo} alt="My Home" height={80} />
+          </Link>
         </Box>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <Grid className={classes.formGrid} container spacing={3}>

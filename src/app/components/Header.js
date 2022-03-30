@@ -15,15 +15,16 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import MobileMenu from "./MobileMenu";
 import DesktopMenu from "./DesktopMenu";
 import { Link, useNavigate } from "react-router-dom";
-import { ROUTES } from "common/constants";
+import { defaultRoute, ROUTES } from "common/constants";
 import { AppContext } from "AppContext";
 import { Button } from "@mui/material";
 import HideOnScroll from "./HideOnScroll";
 import logo from "assets/images/logo.png";
+import { ShoppingCart } from "@mui/icons-material";
 
 export default function Header(props) {
   const {
-    state: { authenticated, currentUser },
+    state: { authenticated, currentUser, role },
   } = useContext(AppContext);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -70,7 +71,7 @@ export default function Header(props) {
         <AppBar className="app-header">
           <Toolbar>
             <Box>
-              <Link to={ROUTES.HOME}>
+              <Link to={defaultRoute[role]}>
                 <img src={logo} alt="My Home" height={50} />
               </Link>
             </Box>
@@ -101,6 +102,18 @@ export default function Header(props) {
                 </IconButton>
                 <IconButton
                   size="large"
+                  aria-label="show 17 new notifications"
+                  color="primary"
+                >
+                  <Badge
+                  //   badgeContent={17}
+                  //   color="error"
+                  >
+                    <ShoppingCart />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size="large"
                   edge="end"
                   aria-label="account of current user"
                   aria-controls={menuId}
@@ -114,6 +127,18 @@ export default function Header(props) {
             )}
             {authenticated && (
               <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="show 17 new notifications"
+                  color="primary"
+                >
+                  <Badge
+                  //   badgeContent={17}
+                  //   color="error"
+                  >
+                    <ShoppingCart />
+                  </Badge>
+                </IconButton>
                 <IconButton
                   size="large"
                   aria-label="show more"

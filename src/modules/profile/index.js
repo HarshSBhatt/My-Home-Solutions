@@ -7,10 +7,11 @@ import api from "common/api";
 import { gender, ROUTES } from "common/constants";
 import PageHeading from "components/PageHeading";
 import Loading from "components/Loading";
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
 import ListUserData from "./components/ListUserData";
+import { AppContext } from "AppContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,6 +31,9 @@ const EAlert = forwardRef(function Alert(props, ref) {
 });
 
 function Profile() {
+  const {
+    state: { authToken },
+  } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
   const [error, setError] = useState("");
@@ -39,7 +43,11 @@ function Profile() {
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const res = await api.get("/users/profile");
+      const res = await api.get("/users/profile", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
       const { data } = res;
 
       if (data.success) {
@@ -69,6 +77,7 @@ function Profile() {
 
   useEffect(() => {
     fetchProfile();
+    // eslint-disable-next-line
   }, []);
 
   const showValue = (value) => {
