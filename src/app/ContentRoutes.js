@@ -7,6 +7,7 @@ import Profile from "modules/profile";
 import Settings from "modules/settings";
 import AdminDashboard from "modules/admin";
 import React from "react";
+import Cart from "modules/cart";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Reserve from "../modules/reserve/components/Reserve";
 import BookingConfirmation from "../modules/reserve/components/BookingConfirmation";
@@ -30,6 +31,11 @@ function ContentRoutes() {
       pageLink: ROUTES.PROFILE,
       view: Profile,
     },
+    //Author: Namit Prakash Dadlani - B00873214
+    {
+      pageLink: ROUTES.CART,
+      view: Cart,
+    }
     {
       pageLink: ROUTES.RESERVE,
       view: Reserve,

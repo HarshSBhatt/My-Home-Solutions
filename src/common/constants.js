@@ -24,6 +24,8 @@ export const ROUTES = {
   USERS_MANAGEMENT: "/users",
   SETTINGS: "/settings",
   PROFILE: "/profile",
+  //Author Namit Prakash Dadlani - B00873214
+  CART: "/cart",
   // MISC
   UNKNOWN: "*",
   ERROR: "/error",
