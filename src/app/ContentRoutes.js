@@ -35,7 +35,7 @@ function ContentRoutes() {
     {
       pageLink: ROUTES.CART,
       view: Cart,
-    }
+    },
     {
       pageLink: ROUTES.RESERVE,
       view: Reserve,
