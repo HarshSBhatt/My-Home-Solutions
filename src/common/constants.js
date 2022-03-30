@@ -15,7 +15,7 @@ export const ROUTES = {
   SIGNUP_OWNER: "/register-owner",
   SIGNUP_ADMIN: "/register-admin",
   RESERVE: "/reserve",
-  BOOKING_CONFIRMATION : "/booking-confirmation",
+  BOOKING_CONFIRMATION: "/booking-confirmation",
   MY_BOOKINGS: "/my-bookings",
   // Dashboard Routes
   MAIN: "/app/*",
@@ -55,4 +55,10 @@ export const ROLES = {
   SUPER_ADMIN: "Admin",
   ROOM_OWNER: "Owner",
   ROOM_SEEKER: "Seeker",
+};
+
+export const defaultRoute = {
+  super_admin: `/app${ROUTES.ADMINDASHBOARD}`,
+  room_owner: `/app/room-owner`,
+  room_seeker: ROUTES.HOME,
 };

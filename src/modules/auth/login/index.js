@@ -23,7 +23,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "AppContext";
 import { useContext } from "react";
 import { LoginSchema } from "common/validationSchema";
-import { ROLES, ROUTES } from "common/constants";
+import { defaultRoute, ROLES, ROUTES } from "common/constants";
 
 const EAlert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -97,7 +97,7 @@ const currentRole = {
 function Login() {
   const { pathname } = useLocation();
   const {
-    state: { authenticated },
+    state: { authenticated, role },
     dispatch,
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
@@ -111,7 +111,7 @@ function Login() {
 
   useEffect(() => {
     if (authenticated) {
-      navigate("/");
+      navigate(defaultRoute[role]);
     }
     setLoginRoles(filterRole(pathname));
     // eslint-disable-next-line
@@ -137,6 +137,7 @@ function Login() {
       dispatch({ type: ActionTypes.SET_USER_ID, data: decoded.user_id });
       dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
       dispatch({ type: ActionTypes.SET_ROLE, data: decoded.role });
+      navigate(defaultRoute[decoded.role]);
     } catch (error) {
       setOpen(true);
       if (error.response?.data) {
@@ -166,7 +167,9 @@ function Login() {
       </Snackbar>
       <div className={classes.paper}>
         <Box pb={3} display="flex" justifyContent="center">
-          <img src={logo} alt="My Home" height={80} />
+          <Link to={ROUTES.HOME}>
+            <img src={logo} alt="My Home" height={80} />
+          </Link>
         </Box>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <Grid className={classes.formGrid} container spacing={3}>

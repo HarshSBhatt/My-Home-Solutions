@@ -10,7 +10,7 @@ import logo from "assets/images/logo.png";
 import api from "common/api";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "AppContext";
 import { useContext } from "react";
 import { ForgotPasswordSchema } from "common/validationSchema";
@@ -147,7 +147,9 @@ function ForgotPassword() {
       )}
       <div className={classes.paper}>
         <Box pb={3} display="flex" justifyContent="center">
-          <img src={logo} alt="My Home" height={80} />
+          <Link to={ROUTES.HOME}>
+            <img src={logo} alt="My Home" height={80} />
+          </Link>
         </Box>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <Grid className={classes.formGrid} container spacing={3}>
