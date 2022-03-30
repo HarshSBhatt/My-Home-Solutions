@@ -4,7 +4,9 @@ import { AppContext } from "AppContext";
 import api from "common/api";
 import CartItem from "./CartItem";
 import { Box } from "@mui/system";
+import { Button } from "@mui/material";
 import CartTotals from "./CartTotals";
+import { useNavigate } from "react-router-dom";
 
 function CartList({ title, value }) {
 
@@ -12,6 +14,8 @@ function CartList({ title, value }) {
     const { role, authenticated } = state;
     const [cartList, setCartList] = useState([]);
     const [totalRent, setTotalRent] = useState([]);
+    const [cartOuterId, setCartOuterId] = useState([]);
+    const navigate = useNavigate();
 
     console.log("CartList userID: ", state.currentUser.user_id)
 
@@ -24,6 +28,7 @@ function CartList({ title, value }) {
                     },
                 });
                 setCartList(res.data.cartItems.cartItems)
+                setCartOuterId(res.data.cartItems._id)
                 console.log("getCartDetailsFromDB cartList is set as:", cartList);
             } catch (e) {
                 console.error(e);
@@ -61,6 +66,23 @@ function CartList({ title, value }) {
 
     }
 
+    function callBooking(id) {
+
+        var sendData = {
+            cartId: id
+        }
+        api.post('booking/booking-confirmation', sendData, {
+            headers: {
+                Authorization: `Bearer ${state.authToken}`
+            },
+        }).then(response => {
+            navigate('/app/booking-confirmation', {
+                state: { ...response.data }
+            });
+
+        });
+    }
+
     return (
         <div>
             <Box display="flex">
@@ -78,7 +100,7 @@ function CartList({ title, value }) {
                     <CartTotals cartList={cartList}></CartTotals>
                     <br></br>
                     <Grid item xs={12} md={3}>
-                        {/* <Button variant="contained" onClick={callBooking} >Checkout</Button> */}
+                        <Button variant="contained" onClick={() => callBooking(cartOuterId)} >Checkout</Button>
                     </Grid>
                 </Grid>
             </Box>
