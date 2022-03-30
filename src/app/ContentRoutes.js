@@ -1,7 +1,6 @@
 // Author: Harsh Bhatt (B00877053)
 
 import { ROUTES } from "common/constants";
-import admin from "modules/admin";
 import Dashboard from "modules/dashboard";
 import Profile from "modules/profile";
 import Settings from "modules/settings";
@@ -71,6 +70,7 @@ function ContentRoutes() {
       view: RejectedUser,
     },
   ];
+
   //! Note: All the private routes will be defined here
   const renderRoutes = (
     <Routes>

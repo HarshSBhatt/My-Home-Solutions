@@ -87,7 +87,7 @@ function UnverifiedUser() {
         Verification Pending
       </Typography>
       <Grid mt="2px" container spacing={2} padding="2rem">
-        {showdata.map((ele) => (
+        {showdata?.map((ele) => (
           <Grid key={ele._id} item lg={3} md={4} sm={6} xs={12}>
             <Card
               sx={{
