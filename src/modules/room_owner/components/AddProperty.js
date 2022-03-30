@@ -37,9 +37,10 @@ const EAlert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+
 const DEF_PROPERTY_DETAILS = {
   propertyTitle: "",
-  createdBy: "6240c6d836ab5d8db04509bc",
+  
   address: "",
   unitNo: 0,
   city: "",
@@ -52,7 +53,7 @@ const DEF_PROPERTY_DETAILS = {
   totalRooms: 0,
   availabilityStartDate: new Date(),
   rent: 0,
-  imageUrl: "",
+ 
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -117,10 +118,13 @@ function RoomOwner() {
   const [success, setSuccess] = useState("");
   const [open, setOpen] = useState(false);
   const classes = useStyles();
+  const {state:{userId}} = useContext(AppContext);
   const navigate = useNavigate();
   const [propertyDetails, setPropertyDetails] = useState(DEF_PROPERTY_DETAILS);
   const [inputPropertyDetails, setInputPropertyDetails] =
     useState(DEF_PROPERTY_DETAILS);
+
+    const [files, setFiles] = useState([]);
 
   const postalCodeRegex = RegExp(
     /^[a-zA-Z][0-9][a-zA-Z][ ][0-9][a-zA-Z][0-9]{1}/
@@ -155,42 +159,42 @@ function RoomOwner() {
       case "propertyTitle":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          [e.target.name]: [e.target.value],
+          [name]: value,
         });
         break;
 
       case "address":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          [e.target.name]: [e.target.value],
+          [name]: value,
         });
         break;
 
       case "unitNo":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          [e.target.name]: [e.target.value],
+          [name]: value,
         });
         break;
 
       case "city":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          [e.target.name]: [e.target.value],
+          [name]: value,
         });
         break;
 
       case "province":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          [e.target.name]: [e.target.value],
+          [name]: value,
         });
         break;
 
       case "postalCode":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          [e.target.name]: [e.target.value],
+          [name]: value,
         });
         errorStrings.addrPostalCode = postalCodeRegex.test(value)
           ? ""
@@ -200,28 +204,28 @@ function RoomOwner() {
       case "availableRooms":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          [e.target.name]: [e.target.value],
+          [name]: value,
         });
         break;
 
       case "type":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          [e.target.name]: [e.target.value],
+          [name]: value,
         });
         break;
 
       case "totalRooms":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          [e.target.name]: [e.target.value],
+          [name]: value,
         });
         break;
 
       case "availabilityStartDate":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          [e.target.name]: [e.target.value],
+          [name]: value,
         });
         let currentDate = new Date();
         let u =
@@ -245,7 +249,7 @@ function RoomOwner() {
       case "rent":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          [e.target.name]: [e.target.value],
+          [name]: value,
         });
         break;
 
@@ -257,16 +261,54 @@ function RoomOwner() {
     }
   };
 
-  const handlePropertySubmit = (e) => {
+  const handlePropertySubmit = async (e) => {
     e.preventDefault();
-    console.log(inputPropertyDetails);
+    //console.log(inputPropertyDetails);
     if (validateNewListing(errorStrings)) {
       alert("Submitted");
+      
       setPropertyDetails({ ...inputPropertyDetails });
-      //console.log(inputPropertyDetails);
+      console.log(inputPropertyDetails);
+
+      //image upload
+      const formData = new FormData();
+      Object.values(files).forEach(file=>{
+        formData.append("propertyImage", file);
+      });
+
+      // try {
+      //   const res =  await axios.post('/uploads', formData, {
+      //     headers: {
+      //       'Content-Type': 'multipart/form-data'
+      //     },
+      //   });
+      //   console.log(res);
+      // } catch (err) {
+      //   if (err.response.status === 500) {
+      //     console.log(err);
+      //   } else {
+      //     console.log(err.response.data.msg);
+      //   }
+      // }
+
+      // try {
+      //   const res =  await axios.post('/http://localhost:5000/api/property-routes/add-rental-property',inputPropertyDetails, formData, {
+      //     headers: {
+      //       'Content-Type': 'multipart/form-data'
+      //     },
+      //   });
+      //   console.log(res);
+      // } catch (err) {
+      //   if (err.response.status === 500) {
+      //     console.log(err);
+      //   } else {
+      //     console.log(err.response.data.msg);
+      //   }
+      // }
+    
       axios
         .post(
-          "http://localhost:5000/api/property-routes/add-rental-property",
+          "http://localhost:5000/api/property-routes/add-rental-property",formData,
           inputPropertyDetails
         )
         .then((res) => {
@@ -308,12 +350,9 @@ function RoomOwner() {
     setInputPropertyDetails({ ...inputPropertyDetails, amenities: newAmenity });
   };
 
-  const onImageChange = (e) => {
-    console.log(typeof e.target.files);
-  };
-
-  const imageUploadHandler = (e) => {
+  const onFileChange = e => {
     console.log(e.target.files);
+    setFiles(e.target.files)
   };
 
   const handleClose = (event, reason) => {
@@ -670,17 +709,9 @@ function RoomOwner() {
           {/* FILE UPLOAD DIV */}
           <input
             type="file"
-            name="image"
-            onChange={(event) => {
-              console.log(event.target.files[0]);
-              setSelectedImage(event.target.files[0]);
-              var baseUrl = "http://localhost:5000/api/uploads";
-              var newPath = baseUrl + event.target.files[0].name;
-              setInputPropertyDetails({
-                ...inputPropertyDetails,
-                imageUrl: newPath,
-              });
-            }}
+            name="propertyImage"
+            multiple
+            onChange={onFileChange}
           />
 
           {/* <label htmlFor="raised-button-file">
@@ -711,6 +742,7 @@ function RoomOwner() {
               fullWidth
               variant="contained"
               color="primary"
+              //onSubmit={handlePropertySubmit}
             >
               Submit
             </Button>

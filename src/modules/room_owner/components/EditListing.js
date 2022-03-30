@@ -100,13 +100,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const currentRole = {
-  "/register": "register-room-seeker",
-  "/register-owner": "register-room-owner",
-  "/register-admin": "register-super-admin",
-};
+// const currentRole = {
+//   "/register": "register-room-seeker",
+//   "/register-owner": "register-room-owner",
+//   "/register-admin": "register-super-admin",
+// };
 
-function EditListing({p}) {
+function EditListing() {
   const { pathname } = useLocation();
   const {
     state: { authenticated },
@@ -130,13 +130,13 @@ function EditListing({p}) {
   );
 
   // const [allRecords, setAllRecords] = useState([]);
-  const params = useParams();
-
+  //const params = useParams();
+  const {_id} = useParams();
   // GET REQUEST
-  const api_url = `http://localhost:5000/api/property-routes/get-rental-property/`;
+  const api_url = `http://localhost:5000/api/property-routes/get-rental-property/${_id}`;
   useEffect(() => {
-    axios.get(`/get-rental-property/?_id=${p._id}`).then((res) => {
-      console.log(p._id)
+    axios.get(api_url).then((res) => {
+      console.log(_id)
       console.log(res.data);
       setInputPropertyDetails(res.data);
     });
@@ -256,7 +256,7 @@ function EditListing({p}) {
       case "rent":
         setInputPropertyDetails({
           ...inputPropertyDetails,
-          name: value,
+          [name]: value,
         });
         break;
 
@@ -273,24 +273,38 @@ function EditListing({p}) {
     e.preventDefault();
     console.log(inputPropertyDetails);
     if (validateNewListing(errorStrings)) {
-      alert("Submitted");
+      //alert("Submitted");
       // setPropertyDetails({ ...inputPropertyDetails });
       //console.log(inputPropertyDetails);
       axios
         .put(
-          "http://localhost:5000/api/property-routes/update-rental-property/propertyId",
+          `http://localhost:5000/api/property-routes/update-rental-property/${inputPropertyDetails._id}`,
 
           inputPropertyDetails
         )
         .then((res) => {
-          alert(res.data.data);
+          alert("Property updated successfully.");
           setArray(res.data.data.amenities);
           // .then(splitAmenities())
         });
     } else {
-      alert("invalid");
+      alert("Invalid entries.");
     }
-    //navigate(`/room-owner-listings/${inputPropertyDetails.createdBy}`);
+    navigate(`/app/room-owner-listings/`);
+  };
+
+  const handleDelete = async (e) => {
+    try {
+      e.preventDefault();
+      axios
+        .delete(`http://localhost:5000/api/property-routes/delete-rental-property/${inputPropertyDetails._id}`)
+        .then((res) => {
+          alert("Property deleted successfully.")
+        });
+    } catch (e) {
+      console.log("Bad Request sent. Please try again." + e.message);
+    }
+    navigate(`/app/room-owner-listings`);
   };
 
   const am = [];
@@ -432,7 +446,8 @@ function EditListing({p}) {
                 }}
               />
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            
+            <Grid className={classes.inputGrid} item xs={6} >
               <TextField
                 value={inputPropertyDetails.address.unitNo}
                 variant="outlined"
@@ -451,7 +466,7 @@ function EditListing({p}) {
               />
             </Grid>
 
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={6} >
               <TextField
                 value={inputPropertyDetails.address.city}
                 variant="outlined"
@@ -516,6 +531,9 @@ function EditListing({p}) {
                 label="Available Rooms"
                 name="availableRooms"
                 InputProps={{ inputProps: { min: 1 } }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 autoComplete="off"
                 required
               />
@@ -530,6 +548,9 @@ function EditListing({p}) {
                 label="Total Rooms"
                 name="totalRooms"
                 InputProps={{ inputProps: { min: 1 } }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 autoComplete="off"
                 required
               />
@@ -583,6 +604,9 @@ function EditListing({p}) {
                 variant="outlined"
                 type="number"
                 InputProps={{ inputProps: { min: 1 } }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 fullWidth
                 onChange={inputChange}
                 label="Rent"
@@ -781,11 +805,21 @@ function EditListing({p}) {
               disableElevation
               type="submit"
               disabled={loading}
-              fullWidth
+              
               variant="contained"
               color="primary"
             >
               Submit
+            </Button>
+            <Button
+              disableElevation
+              type="submit"
+              disabled={loading}
+              onClick = {handleDelete}
+              variant="contained"
+              color="primary"
+            >
+              Delete
             </Button>
           </Box>
         </form>

@@ -41,9 +41,13 @@ function ContentRoutes() {
       pageLink: ROUTES.ROOM_OWNER_LISTINGS_PATH,
       view: MyListings,
     },
+
     {
       pageLink: ROUTES.EDIT_LISTING_PATH,
       view: EditListing,
+    },
+
+    {
       pageLink: ROUTES.RESERVE,
       view: Reserve,
     },
