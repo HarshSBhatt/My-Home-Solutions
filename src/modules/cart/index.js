@@ -3,7 +3,7 @@ import CartList from "./components/CartList";
 
 function Cart() {
   return <div>
-      <CartList title="ye title" value="ye value"></CartList>
+      <CartList></CartList>
   </div>;}
 
 export default Cart;
