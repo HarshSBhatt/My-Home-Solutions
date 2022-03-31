@@ -15,7 +15,7 @@ function CartTotals({ cartList }) {
             <br></br>
             <h3>Total Rent: {total}</h3>
             <h3>Convenience fee: </h3>
-            <h3>Sub Total Rent: </h3>
+            <h3>Total Amount: </h3>
         </div>
     );
 }

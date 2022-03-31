@@ -13,7 +13,6 @@ function CartList({ title, value }) {
     const { state } = useContext(AppContext);
     const { role, authenticated } = state;
     const [cartList, setCartList] = useState([]);
-    const [totalRent, setTotalRent] = useState([]);
     const [cartOuterId, setCartOuterId] = useState([]);
     const navigate = useNavigate();
 
@@ -29,7 +28,6 @@ function CartList({ title, value }) {
                 });
                 setCartList(res.data.cartItems.cartItems)
                 setCartOuterId(res.data.cartItems._id)
-                console.log("getCartDetailsFromDB cartList is set as:", cartList);
             } catch (e) {
                 console.error(e);
             }
@@ -67,7 +65,6 @@ function CartList({ title, value }) {
     }
 
     function callBooking(id) {
-
         var sendData = {
             cartId: id
         }
@@ -79,7 +76,6 @@ function CartList({ title, value }) {
             navigate('/app/booking-confirmation', {
                 state: { ...response.data }
             });
-
         });
     }
 
@@ -90,14 +86,15 @@ function CartList({ title, value }) {
                     <h3>Your Cart</h3>
                     <Grid item>
                         {getCartList().map((cartItem, id) => (
-                            <CartItem value={cartItem} key={cartItem.id} handleDeletion={() => handleDeletion(cartItem._id)}></CartItem>
+                            <CartItem value={cartItem} id={cartItem.id} handleDeletion={() => handleDeletion(cartItem._id)}></CartItem>
                         ))}
                     </Grid>
                 </Grid>
 
                 <Grid container direction={'row'} spacing={1} columns={16} margin={5}>
-                    <h3>Your Totals</h3>
-                    <CartTotals cartList={cartList}></CartTotals>
+                    <Grid item>
+                        <CartTotals cartList={cartList}></CartTotals>
+                    </Grid>
                     <br></br>
                     <Grid item xs={12} md={3}>
                         <Button variant="contained" onClick={() => callBooking(cartOuterId)} >Checkout</Button>
