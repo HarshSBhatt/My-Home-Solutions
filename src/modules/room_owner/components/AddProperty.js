@@ -11,8 +11,9 @@ import {
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import './AddProperty.css';
 import React, { useState, forwardRef, useEffect } from "react";
+
 import logo from "assets/images/logo.png";
 import api from "common/api";
 import Snackbar from "@mui/material/Snackbar";
@@ -109,8 +110,9 @@ const currentRole = {
 function RoomOwner() {
   const { pathname } = useLocation();
   const {
-    state: { authenticated },
+    state: { authenticated,authToken },
   } = useContext(AppContext);
+
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState(ROLES.ROOM_SEEKER);
   const [route, setRoute] = useState(ROUTES.SIGNUP_SEEKER);
@@ -236,11 +238,7 @@ function RoomOwner() {
           currentDate.getDate();
         console.log(u);
         console.log(e.target.value);
-        // if (e.target.value < u) {
-        //   console.log("no");
-        // } else {
-        //   console.log("yes");
-        // }
+      
         errorStrings.moveInDate =
           e.target.value < currentDate ? "Please enter a future date." : "";
 
@@ -269,55 +267,43 @@ function RoomOwner() {
       
       setPropertyDetails({ ...inputPropertyDetails });
       console.log(inputPropertyDetails);
-
-      //image upload
+      
       const formData = new FormData();
       Object.values(files).forEach(file=>{
         formData.append("propertyImage", file);
+        formData.append("propertyTitle",inputPropertyDetails.propertyTitle);  
+        formData.append("address",inputPropertyDetails.address); 
+        formData.append("amenities",inputPropertyDetails.amenities); 
+        formData.append("availabilityStartDate",inputPropertyDetails.availabilityStartDate); 
+        formData.append("availableRooms",inputPropertyDetails.availableRooms);
+        formData.append("city",inputPropertyDetails.city);
+        formData.append("postalCode",inputPropertyDetails.postalCode);
+        formData.append("province",inputPropertyDetails.province);
+        formData.append("rent",inputPropertyDetails.rent);
+        formData.append("totalRooms",inputPropertyDetails.totalRooms);
+        formData.append("type",inputPropertyDetails.type);
+        formData.append("unitNo",inputPropertyDetails.unitNo);
       });
-
-      // try {
-      //   const res =  await axios.post('/uploads', formData, {
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data'
-      //     },
-      //   });
-      //   console.log(res);
-      // } catch (err) {
-      //   if (err.response.status === 500) {
-      //     console.log(err);
-      //   } else {
-      //     console.log(err.response.data.msg);
-      //   }
-      // }
-
-      // try {
-      //   const res =  await axios.post('/http://localhost:5000/api/property-routes/add-rental-property',inputPropertyDetails, formData, {
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data'
-      //     },
-      //   });
-      //   console.log(res);
-      // } catch (err) {
-      //   if (err.response.status === 500) {
-      //     console.log(err);
-      //   } else {
-      //     console.log(err.response.data.msg);
-      //   }
-      // }
     
-      axios
+      const headers = {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${authToken}`
+      }
+
+      api
         .post(
-          "http://localhost:5000/api/property-routes/add-rental-property",formData,
-          inputPropertyDetails
+          "/property-routes/add-rental-property",formData
+          ,
+          {headers:headers}
         )
         .then((res) => {
+          alert("New property created.")
           console.log(res.data.data);
         });
     } else {
-      alert("invalid");
+      alert("Invalid entries.");
     }
-    //navigate(`/room-owner-listings/${inputPropertyDetails.createdBy}`);
+    navigate(`/app/room-owner-listings`);
   };
 
   const isAmenityChecked = (amenity) => {
@@ -384,7 +370,7 @@ function RoomOwner() {
           <img src={logo} alt="My Home" height={80} />
         </Box>
 
-        <label justifyContent="center">Add a new rental Property</label>
+        <label className="form-heading" >Add a new rental Property</label>
 
         <form
           className={classes.form}
@@ -417,7 +403,7 @@ function RoomOwner() {
                 autoComplete="off"
               />
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.unitNo}
                 variant="outlined"
@@ -432,7 +418,7 @@ function RoomOwner() {
               />
             </Grid>
 
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.city}
                 variant="outlined"
@@ -444,7 +430,7 @@ function RoomOwner() {
                 required
               />
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.province}
                 variant="outlined"
@@ -456,7 +442,7 @@ function RoomOwner() {
                 autoComplete="off"
               />
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.postalCode}
                 variant="outlined"
@@ -475,7 +461,7 @@ function RoomOwner() {
                   </span>
                 )}
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.availableRooms}
                 variant="outlined"
@@ -489,7 +475,7 @@ function RoomOwner() {
                 required
               />
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.totalRooms}
                 variant="outlined"
@@ -503,7 +489,7 @@ function RoomOwner() {
                 required
               />
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <InputLabel id="demo-simple-select-helper-label">
                 Type of Property
               </InputLabel>
@@ -522,7 +508,21 @@ function RoomOwner() {
                 </MenuItem>
               </Select>
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
+              <TextField
+                value={inputPropertyDetails.rent}
+                variant="outlined"
+                type="number"
+                InputProps={{ inputProps: { min: 1 } }}
+                fullWidth
+                onChange={inputChange}
+                label="Rent"
+                name="rent"
+                autoComplete="off"
+                required
+              />
+            </Grid>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.availabilityStartDate}
                 variant="outlined"
@@ -542,25 +542,12 @@ function RoomOwner() {
                   <span className="errorMsg">{errorStrings.moveInDate}</span>
                 )}
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
-              <TextField
-                value={inputPropertyDetails.rent}
-                variant="outlined"
-                type="number"
-                InputProps={{ inputProps: { min: 1 } }}
-                fullWidth
-                onChange={inputChange}
-                label="Rent"
-                name="rent"
-                autoComplete="off"
-                required
-              />
-            </Grid>
+          
           </Grid>
 
           <Box>
             <FormControl style={{ width: "100%" }}>
-              <FormLabel>Amenities</FormLabel>
+              <FormLabel className = "amenities-heading">Amenities</FormLabel>
               <FormGroup
                 style={{
                   flexDirection: "row",
@@ -695,44 +682,15 @@ function RoomOwner() {
             </FormControl>
           </Box>
 
-          {/* <input
-            accept="image/*"
-            className={classes.input}
-            style={{ display: "none" }}
-            id="raised-button-file"
-            multiple
-            type="file"
-            name="image"
-            onChange={imageSelectedHandler}
-          /> */}
-
-          {/* FILE UPLOAD DIV */}
+      
           <input
             type="file"
+          
             name="propertyImage"
             multiple
+            required
             onChange={onFileChange}
           />
-
-          {/* <label htmlFor="raised-button-file">
-            <Button
-              variant="contained"
-              component="span"
-              color="primary"
-              className={classes.button}
-            >
-              Choose Photos
-            </Button>
-          </label>
-          <Button
-            variant="contained"
-            component="span"
-            color="primary"
-            startIcon={<UploadIcon />}
-            className={classes.button}
-          >
-            Upload
-          </Button> */}
 
           <Box className={classes.buttonBox} textTransform="lowercase">
             <Button
@@ -742,7 +700,7 @@ function RoomOwner() {
               fullWidth
               variant="contained"
               color="primary"
-              //onSubmit={handlePropertySubmit}
+              
             >
               Submit
             </Button>

@@ -28,7 +28,7 @@ export default function ProductHero() {
         variant="contained"
         size="large"
         component="a"
-        onClick={(event) => navigate(ROUTES.HOME)}
+        onClick={(event) => navigate(`/app${ROUTES.ROOM_OWNER_LISTINGS_PATH}`)}
         sx={{ minWidth: 200, mt: 15 }}
       >
         View All Properties

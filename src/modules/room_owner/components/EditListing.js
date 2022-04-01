@@ -5,12 +5,8 @@ import {
   Button,
   Grid,
   TextField,
-  Typography,
-  Divider,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 import React, { useState, forwardRef, useEffect } from "react";
 import logo from "assets/images/logo.png";
@@ -20,8 +16,6 @@ import MuiAlert from "@mui/material/Alert";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "AppContext";
 import { useContext } from "react";
-import { SignupSchema } from "common/validationSchema";
-import { ROUTES, ROLES } from "common/constants";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -31,7 +25,6 @@ import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import UploadIcon from "@mui/icons-material/Upload";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const EAlert = forwardRef(function Alert(props, ref) {
@@ -93,27 +86,23 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonBox: {
     margin: "24px 0px 8px",
+    display: 'flex',
     "& button": {
       padding: "11px 22px",
       fontWeight: 600,
     },
+    "& .button-delete": {
+    marginLeft: 'auto',
+    },
   },
 }));
-
-// const currentRole = {
-//   "/register": "register-room-seeker",
-//   "/register-owner": "register-room-owner",
-//   "/register-admin": "register-super-admin",
-// };
 
 function EditListing() {
   const { pathname } = useLocation();
   const {
-    state: { authenticated },
+    state: { authenticated, authToken },
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState(ROLES.ROOM_SEEKER);
-  const [route, setRoute] = useState(ROUTES.SIGNUP_SEEKER);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [open, setOpen] = useState(false);
@@ -123,23 +112,27 @@ function EditListing() {
   const [inputPropertyDetails, setInputPropertyDetails] =
     useState(DEF_PROPERTY_DETAILS);
   const [array, setArray] = useState([]);
-  const [respId, setRespId] = useState()
 
   const postalCodeRegex = RegExp(
     /^[a-zA-Z][0-9][a-zA-Z][ ][0-9][a-zA-Z][0-9]{1}/
   );
 
-  // const [allRecords, setAllRecords] = useState([]);
-  //const params = useParams();
-  const {_id} = useParams();
-  // GET REQUEST
-  const api_url = `http://localhost:5000/api/property-routes/get-rental-property/${_id}`;
+  const { _id } = useParams();
+
+  // GET Request to backend for fetching the property details
+  const api_url = `/property-routes/get-rental-property/${_id}`;
   useEffect(() => {
-    axios.get(api_url).then((res) => {
-      console.log(_id)
-      console.log(res.data);
-      setInputPropertyDetails(res.data);
-    });
+    api
+      .get(api_url, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+      .then((res) => {
+        console.log(_id);
+        console.log(res.data);
+        setInputPropertyDetails(res.data);
+      });
   }, []);
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -260,9 +253,6 @@ function EditListing() {
         });
         break;
 
-      case "image":
-        console.log(e.files);
-
       default:
         break;
     }
@@ -273,18 +263,22 @@ function EditListing() {
     e.preventDefault();
     console.log(inputPropertyDetails);
     if (validateNewListing(errorStrings)) {
-      //alert("Submitted");
-      // setPropertyDetails({ ...inputPropertyDetails });
-      //console.log(inputPropertyDetails);
-      axios
+      
+      setPropertyDetails({ ...inputPropertyDetails });
+     
+      api
         .put(
-          `http://localhost:5000/api/property-routes/update-rental-property/${inputPropertyDetails._id}`,
-
-          inputPropertyDetails
+          `/property-routes/update-rental-property/${inputPropertyDetails._id}`,
+          inputPropertyDetails,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            }
+          }
         )
         .then((res) => {
           alert("Property updated successfully.");
-          setArray(res.data.data.amenities);
+          //setArray(res.data.data.amenities);
           // .then(splitAmenities())
         });
     } else {
@@ -296,10 +290,17 @@ function EditListing() {
   const handleDelete = async (e) => {
     try {
       e.preventDefault();
-      axios
-        .delete(`http://localhost:5000/api/property-routes/delete-rental-property/${inputPropertyDetails._id}`)
+      api
+        .delete(
+          `/property-routes/delete-rental-property/${inputPropertyDetails._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        )
         .then((res) => {
-          alert("Property deleted successfully.")
+          alert("Property deleted successfully.");
         });
     } catch (e) {
       console.log("Bad Request sent. Please try again." + e.message);
@@ -324,33 +325,12 @@ function EditListing() {
     .filter((inputAmenity) => {
       return inputAmenity !== "";
     });
-  // handleAmChange (e)
-  /**
-   * e.target.value --> amen uniqu name
-   *
-   * array, Am
-   * Am.find()
-   * return true
-   *
-   */
 
-  //  const handleAmenityChange = (e) => {
-  //   const inputAmenity = e.target.value;
-  //   for(var j=0; j<am.length; j++)
-  //   {
-  //     if (inputAmenity === am[i])
-  //     return true;
-  //   }
   const handleAmenityChange = (e) => {
     const inputAmenity = e.target.value;
     for (var j = 0; j < am.length; j++) {
       if (inputAmenity === am[i]) return true;
     }
-    // const amenity = inputPropertyDetails.amenities
-    //   .split(",")
-    //   .filter((inputAmenity) => {
-    //     return inputAmenity !== "";
-    //   });
 
     console.log("amenity", amenity);
     const i = amenity.indexOf(inputAmenity);
@@ -367,14 +347,6 @@ function EditListing() {
 
     console.log(newAmenity);
     setInputPropertyDetails({ ...inputPropertyDetails, amenities: newAmenity });
-  };
-
-  const onImageChange = (e) => {
-    console.log(typeof e.target.files);
-  };
-
-  const imageUploadHandler = (e) => {
-    console.log(e.target.files);
   };
 
   const handleClose = (event, reason) => {
@@ -406,7 +378,7 @@ function EditListing() {
           <img src={logo} alt="My Home" height={80} />
         </Box>
 
-        <label justifyContent="center">Add a new rental Property</label>
+        <label className="form-heading">Update the rental property</label>
 
         <form
           className={classes.form}
@@ -446,8 +418,8 @@ function EditListing() {
                 }}
               />
             </Grid>
-            
-            <Grid className={classes.inputGrid} item xs={6} >
+
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.address.unitNo}
                 variant="outlined"
@@ -466,7 +438,7 @@ function EditListing() {
               />
             </Grid>
 
-            <Grid className={classes.inputGrid} item xs={6} >
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.address.city}
                 variant="outlined"
@@ -482,7 +454,7 @@ function EditListing() {
                 }}
               />
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.address.province}
                 variant="outlined"
@@ -498,7 +470,7 @@ function EditListing() {
                 }}
               />
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.address.postalCode}
                 variant="outlined"
@@ -521,7 +493,7 @@ function EditListing() {
                   </span>
                 )}
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.availableRooms}
                 variant="outlined"
@@ -538,7 +510,7 @@ function EditListing() {
                 required
               />
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.totalRooms}
                 variant="outlined"
@@ -555,7 +527,7 @@ function EditListing() {
                 required
               />
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <InputLabel id="demo-simple-select-helper-label">
                 Type of Property
               </InputLabel>
@@ -576,7 +548,24 @@ function EditListing() {
                 </MenuItem>
               </Select>
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
+              <TextField
+                value={inputPropertyDetails.rent}
+                variant="outlined"
+                type="number"
+                InputProps={{ inputProps: { min: 1 } }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                fullWidth
+                onChange={inputChange}
+                label="Rent"
+                name="rent"
+                autoComplete="off"
+                required
+              />
+            </Grid>
+            <Grid className={classes.inputGrid} item xs={12} sm={12}>
               <TextField
                 value={inputPropertyDetails.availabilityStartDate
                   .toString()
@@ -598,28 +587,12 @@ function EditListing() {
                   <span className="errorMsg">{errorStrings.moveInDate}</span>
                 )}
             </Grid>
-            <Grid className={classes.inputGrid} item xs={12} sm={12} md={6}>
-              <TextField
-                value={inputPropertyDetails.rent}
-                variant="outlined"
-                type="number"
-                InputProps={{ inputProps: { min: 1 } }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-                onChange={inputChange}
-                label="Rent"
-                name="rent"
-                autoComplete="off"
-                required
-              />
-            </Grid>
+            
           </Grid>
 
           <Box>
             <FormControl style={{ width: "100%" }}>
-              <FormLabel>Amenities</FormLabel>
+              <FormLabel className = "amenities-heading">Amenities</FormLabel>
               <FormGroup
                 style={{
                   flexDirection: "row",
@@ -754,72 +727,34 @@ function EditListing() {
             </FormControl>
           </Box>
 
-          {/* <input
-              accept="image/*"
-              className={classes.input}
-              style={{ display: "none" }}
-              id="raised-button-file"
-              multiple
-              type="file"
-              name="image"
-              onChange={imageSelectedHandler}
-            /> */}
-
           {/* FILE UPLOAD DIV */}
           <input
             type="file"
-            name="image"
-            onChange={(event) => {
-              console.log(event.target.files[0]);
-              setSelectedImage(event.target.files[0]);
-              var baseUrl = "http://localhost:5000/api/uploads";
-              var newPath = baseUrl + event.target.files[0].name;
-              setInputPropertyDetails({
-                ...inputPropertyDetails,
-                imageUrl: newPath,
-              });
-            }}
+            name="propertyImage"
+            multiple
+           
+            
           />
-
-          {/* <label htmlFor="raised-button-file">
-              <Button
-                variant="contained"
-                component="span"
-                color="primary"
-                className={classes.button}
-              >
-                Choose Photos
-              </Button>
-            </label>
-            <Button
-              variant="contained"
-              component="span"
-              color="primary"
-              startIcon={<UploadIcon />}
-              className={classes.button}
-            >
-              Upload
-            </Button> */}
           <Box className={classes.buttonBox} textTransform="lowercase">
             <Button
               disableElevation
               type="submit"
               disabled={loading}
-              
               variant="contained"
               color="primary"
             >
               Submit
             </Button>
             <Button
+            className="button-delete"
               disableElevation
               type="submit"
               disabled={loading}
-              onClick = {handleDelete}
+              onClick={handleDelete}
               variant="contained"
-              color="primary"
+              color="error"
             >
-              Delete
+              Delete Listing
             </Button>
           </Box>
         </form>

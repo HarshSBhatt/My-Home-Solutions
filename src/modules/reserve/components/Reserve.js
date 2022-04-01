@@ -120,7 +120,7 @@ export default function Reserve() {
                     <div className="prop-desc">
                       <p>{data.propertyTitle}</p>
                       <p>Rent: {data.rent} per month</p>
-                      <p>
+                      {/* <p>
                         {" "}
                         Amenities Include:
                         {data.amenities.map((amenity) => (
@@ -128,7 +128,12 @@ export default function Reserve() {
                               {amenity}
                             </Button>
                         ))}
-                      </p>
+                      </p> */}
+                      <p>Amenities Included:
+                       <Button variant="text">
+                              {data.amenities}
+                            </Button></p>
+
                       <Button
                           variant="contained"
                           onClick={() => addToCart(data._id, data.rent)}

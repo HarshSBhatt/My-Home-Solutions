@@ -1,3 +1,5 @@
+/* Author: Utsava Verma (B00873273)*/
+
 p {
   display: inline;
   margin-left: 2%;
@@ -8,5 +10,14 @@ button {
 }
 
 h2 {
-  margin-top: 5%;
+  margin-top: 15%;
+}
+
+.profile_images {
+  border-radius: 10%;
+  display: grid;
+  padding: 1%;
+  margin-bottom: 3%;
+  height: 170px;
+  width: 30%
 }
