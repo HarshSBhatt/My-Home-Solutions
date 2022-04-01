@@ -1,3 +1,4 @@
+// Author: Namit Prakash Dadlani (B00873214)
 
 import { IconButton, ListItem, ListItemText, Typography, } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -8,14 +9,23 @@ import { AppContext } from "AppContext";
 
 function CartItem({ value, handleDeletion }) {
     const { state } = useContext(AppContext);
+    const [propertyString, setPropertyString] = useState("");
+    
 
     useEffect(() => {
         async function getPropertyDetails() {
-            const res = await api.get(`/property-routes/get-rental-property/${value.property}`, {
+            const res = await api.get(`/cart/getPropertyName/${value.property}`, {
                 headers: {
                     Authorization: `Bearer ${state.authToken}`
                 },
             });
+            if(res.data !== ""){
+                let tempString = "Booking for property: "+res.data.propertyTitle
+                setPropertyString(tempString);
+            } else {
+                let tempString = "Booking for property ID: "+value.property
+                setPropertyString(tempString);
+            }
         }
         getPropertyDetails()
     }, []);
@@ -29,7 +39,7 @@ function CartItem({ value, handleDeletion }) {
                 </IconButton>
             } >
                 <ListItemText
-                    primary={<strong>Booking for property ID: {value.property}</strong>}
+                    primary={<strong>{propertyString}</strong>}
                     secondary={
                         <>
                             <Typography
