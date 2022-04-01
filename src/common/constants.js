@@ -26,6 +26,9 @@ export const ROUTES = {
   PROFILE: "/profile",
   //Author Namit Prakash Dadlani - B00873214
   CART: "/cart",
+  ROOM_OWNER_PATH: "/room-owner",
+  ROOM_OWNER_LISTINGS_PATH: "/room-owner-listings",
+  EDIT_LISTING_PATH: "/edit-listing/:_id",
   // MISC
   UNKNOWN: "*",
   ERROR: "/error",
@@ -62,6 +65,6 @@ export const ROLES_TO_DISPLAY = {
 
 export const defaultRoute = {
   super_admin: `/app${ROUTES.ADMINDASHBOARD}`,
-  room_owner: `/`,
+  room_owner: `/app${ROUTES.ROOM_OWNER_PATH}`,
   room_seeker: ROUTES.HOME,
 };
