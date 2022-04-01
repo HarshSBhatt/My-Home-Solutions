@@ -5,7 +5,7 @@ import { Grid } from "@mui/material";
 import { AppContext } from "AppContext";
 import api from "common/api";
 import CartItem from "./CartItem";
-import { Box } from "@mui/system";
+import { Box, fontSize } from "@mui/system";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -58,6 +58,7 @@ function CartList() {
         return cartList;
     }
 
+    // handleDeletion: Handle the deletion of cart item on click of delete button in CartItem.
     const handleDeletion = async (id) => {
         try {
             const res = await api.delete(`/cart/delete/${id}`, {
@@ -97,16 +98,23 @@ function CartList() {
 
     }
 
+    // renderCartContent : Conditionally render cart content. If there is none, display a message.
     const renderCartContent = () => {
         if (getCartList().length === 0) {
-            return <h4>Hey! You cart is empty, please visit our amazing collection of properties and add them to cart.</h4>
+            return <h4>Hey! Your cart is empty, please visit our amazing collection of properties and add them to cart.</h4>
         } else {
             return getCartList().map((cartItem, id) => (
-                <CartItem key={cartItem._id} value={cartItem} handleDeletion={() => handleDeletion(cartItem._id)}></CartItem>
+                <div>
+                    <CartItem key={cartItem._id} value={cartItem} handleDeletion={() => handleDeletion(cartItem._id)}></CartItem>
+                    <Grid item>
+                        <p>If you would like to explore other options, click delete icon and navigate to reserve page again.</p>
+                    </Grid>
+                </div>
             ))
         }
     }
 
+    // renderCheckoutButton : If cart is empty, disable the checkout button.
     const renderCheckoutButton = () => {
         if (getCartList().length === 0) {
             return <Button variant="contained" onClick={() => callBooking(cartOuterId)} disabled>Checkout</Button>
@@ -115,6 +123,7 @@ function CartList() {
         }
     }
 
+    // callBooking: Call the booking module on press of checkout and pass the cart id.
     function callBooking(id) {
         var sendData = {
             cartId: id
@@ -134,10 +143,14 @@ function CartList() {
         <div >
             <Box display="flex">
                 <Grid container direction={'row'} spacing={1} columns={16} margin={5}>
-                    <h3>Your Cart</h3>
+                    <Grid item>
+                        <h3>Your Cart</h3>
+                    </Grid>
+
                     <Grid item>
                         {renderCartContent()}
                     </Grid>
+
                 </Grid>
 
                 <Grid container direction={'row'} spacing={1} columns={16} margin={5}>
