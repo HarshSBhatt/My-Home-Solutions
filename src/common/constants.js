@@ -24,6 +24,11 @@ export const ROUTES = {
   USERS_MANAGEMENT: "/users",
   SETTINGS: "/settings",
   PROFILE: "/profile",
+  //Author Namit Prakash Dadlani - B00873214
+  CART: "/cart",
+  ROOM_OWNER_PATH: "/room-owner",
+  ROOM_OWNER_LISTINGS_PATH: "/room-owner-listings",
+  EDIT_LISTING_PATH: "/edit-listing/:_id",
   // MISC
   UNKNOWN: "*",
   ERROR: "/error",
@@ -42,6 +47,7 @@ export const USER = "USER";
 export const ADMIN = "ADMIN";
 export const USER_ID = "USER_ID";
 export const ROLE = "ROLE";
+export const CART = "CART";
 export const ROOM_OWNER = "room_owner";
 export const ROOM_SEEKER = "room_seeker";
 export const SUPER_ADMIN = "super_admin";
@@ -51,7 +57,7 @@ export const gender = {
   prefer_not_to_say: "N/A",
 };
 
-export const ROLES = {
+export const ROLES_TO_DISPLAY = {
   SUPER_ADMIN: "Admin",
   ROOM_OWNER: "Owner",
   ROOM_SEEKER: "Seeker",
@@ -59,6 +65,6 @@ export const ROLES = {
 
 export const defaultRoute = {
   super_admin: `/app${ROUTES.ADMINDASHBOARD}`,
-  room_owner: `/`,
+  room_owner: `/app${ROUTES.ROOM_OWNER_PATH}`,
   room_seeker: ROUTES.HOME,
 };

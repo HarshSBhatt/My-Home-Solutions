@@ -9,7 +9,9 @@ import ImageSectionLayout from "../components/ImageSectionLayout";
 
 export default function ProductHero() {
   const navigate = useNavigate();
-
+  const handleClick = () => {
+    navigate(`/app${ROUTES.RESERVE}`);
+  };
   return (
     <ImageSectionLayout
       sxBackground={{
@@ -28,7 +30,7 @@ export default function ProductHero() {
         variant="contained"
         size="large"
         component="a"
-        onClick={(event) => navigate(ROUTES.HOME)}
+        onClick={handleClick}
         sx={{ minWidth: 200, mt: 15 }}
       >
         View All Properties
