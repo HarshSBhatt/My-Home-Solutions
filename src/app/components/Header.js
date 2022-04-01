@@ -1,6 +1,6 @@
 // Author: Harsh Bhatt (B00877053)
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -15,16 +15,19 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import MobileMenu from "./MobileMenu";
 import DesktopMenu from "./DesktopMenu";
 import { Link, useNavigate } from "react-router-dom";
-import { defaultRoute, ROUTES } from "common/constants";
+import { defaultRoute, ROOM_SEEKER, ROUTES } from "common/constants";
 import { AppContext } from "AppContext";
 import { Button } from "@mui/material";
 import HideOnScroll from "./HideOnScroll";
 import logo from "assets/images/logo.png";
 import { ShoppingCart } from "@mui/icons-material";
+import * as ActionTypes from "common/actionTypes";
+import api from "common/api";
 
 export default function Header(props) {
   const {
-    state: { authenticated, currentUser, role },
+    state: { authenticated, currentUser, role, cartItems, authToken },
+    dispatch,
   } = useContext(AppContext);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -32,6 +35,24 @@ export default function Header(props) {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  async function getCartDetailsFromDB() {
+    try {
+      const res = await api.get(`/cart/view`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      if (null !== res.data.cartItems) {
+        dispatch({
+          type: ActionTypes.SET_CART,
+          data: res.data.cartItems.cartItems,
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -61,6 +82,10 @@ export default function Header(props) {
   const handleButtonClick = (route) => {
     navigate(route);
   };
+
+  useEffect(() => {
+    getCartDetailsFromDB();
+  }, []);
 
   const menuId = "primary-search-account-menu";
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -100,18 +125,22 @@ export default function Header(props) {
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
-                <IconButton
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="primary"
-                >
-                  <Badge
-                  //   badgeContent={17}
-                  //   color="error"
-                  >
-                    <ShoppingCart />
-                  </Badge>
-                </IconButton>
+                {role === ROOM_SEEKER && (
+                  <Link to={`/app${ROUTES.CART}`}>
+                    <IconButton
+                      size="large"
+                      aria-label="show 17 new notifications"
+                      color="primary"
+                    >
+                      <Badge
+                        badgeContent={cartItems}
+                        // color="error"
+                      >
+                        <ShoppingCart />
+                      </Badge>
+                    </IconButton>
+                  </Link>
+                )}
                 <IconButton
                   size="large"
                   edge="end"

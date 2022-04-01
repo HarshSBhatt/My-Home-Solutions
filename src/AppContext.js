@@ -6,7 +6,7 @@ import { createContext, useReducer } from "react";
 
 import * as ActionTypes from "common/actionTypes";
 // import api from "common/api";
-import { ROLE, TOKEN, USER, USER_ID } from "common/constants";
+import { CART, ROLE, TOKEN, USER, USER_ID } from "common/constants";
 import axios from "axios";
 
 const getLoggedInUser = () => {
@@ -27,12 +27,17 @@ const getRole = () => {
     : "room_seeker";
 };
 
+const getCartItems = () => {
+  return localStorage.getItem(CART) ? localStorage.getItem(CART) : 0;
+};
+
 const initialState = {
   currentUser: getLoggedInUser() || {},
   userId: getUserId(),
   authToken: localStorage.getItem(TOKEN),
   authenticated: false,
   role: getRole(),
+  cartItems: getCartItems(),
 };
 
 const reducer = (state, action) => {
@@ -59,6 +64,9 @@ const reducer = (state, action) => {
     case ActionTypes.SET_ROLE:
       localStorage.setItem(ROLE, action.data);
       return { ...state, role: action.data };
+    case ActionTypes.SET_CART:
+      localStorage.setItem(CART, action.data);
+      return { ...state, cartItems: action.data };
     //! LOGOUT
     case ActionTypes.LOGOUT:
       delete axios.defaults.headers.common.Authorization;
@@ -98,6 +106,7 @@ function AppContextProvider({ children }) {
     const user = getCurrentUser();
     const userId = getUserId();
     const role = getRole();
+    const cartItems = getCartItems();
 
     if (token) {
       axios.defaults.headers.common = {
@@ -108,6 +117,7 @@ function AppContextProvider({ children }) {
       dispatch({ type: ActionTypes.SET_CURRENT_USER, data: user });
       dispatch({ type: ActionTypes.SET_USER_ID, data: userId });
       dispatch({ type: ActionTypes.SET_ROLE, data: role });
+      dispatch({ type: ActionTypes.SET_CART, data: cartItems });
     }
   };
 

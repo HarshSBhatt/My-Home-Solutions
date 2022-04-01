@@ -44,6 +44,7 @@ export const USER = "USER";
 export const ADMIN = "ADMIN";
 export const USER_ID = "USER_ID";
 export const ROLE = "ROLE";
+export const CART = "CART";
 export const ROOM_OWNER = "room_owner";
 export const ROOM_SEEKER = "room_seeker";
 export const SUPER_ADMIN = "super_admin";
@@ -53,7 +54,7 @@ export const gender = {
   prefer_not_to_say: "N/A",
 };
 
-export const ROLES = {
+export const ROLES_TO_DISPLAY = {
   SUPER_ADMIN: "Admin",
   ROOM_OWNER: "Owner",
   ROOM_SEEKER: "Seeker",

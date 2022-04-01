@@ -21,7 +21,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "AppContext";
 import { useContext } from "react";
 import { SignupSchema } from "common/validationSchema";
-import { ROUTES, ROLES } from "common/constants";
+import { ROUTES, ROLES_TO_DISPLAY } from "common/constants";
 
 const EAlert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -82,7 +82,7 @@ function Signup() {
     state: { authenticated },
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState(ROLES.ROOM_SEEKER);
+  const [role, setRole] = useState(ROLES_TO_DISPLAY.ROOM_SEEKER);
   const [route, setRoute] = useState(ROUTES.SIGNUP_SEEKER);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -96,10 +96,10 @@ function Signup() {
     }
 
     if (pathname === ROUTES.SIGNUP_OWNER) {
-      setRole(ROLES.ROOM_SEEKER);
+      setRole(ROLES_TO_DISPLAY.ROOM_SEEKER);
       setRoute(ROUTES.SIGNUP_SEEKER);
     } else {
-      setRole(ROLES.ROOM_OWNER);
+      setRole(ROLES_TO_DISPLAY.ROOM_OWNER);
       setRoute(ROUTES.SIGNUP_OWNER);
     }
     // eslint-disable-next-line
