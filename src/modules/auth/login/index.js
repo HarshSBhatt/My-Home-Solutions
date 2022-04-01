@@ -23,7 +23,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "AppContext";
 import { useContext } from "react";
 import { LoginSchema } from "common/validationSchema";
-import { defaultRoute, ROLES, ROUTES } from "common/constants";
+import { defaultRoute, ROLES_TO_DISPLAY, ROUTES } from "common/constants";
 
 const EAlert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -75,15 +75,15 @@ const useStyles = makeStyles((theme) => ({
 
 const roles = [
   {
-    name: ROLES.ROOM_SEEKER,
+    name: ROLES_TO_DISPLAY.ROOM_SEEKER,
     route: ROUTES.LOGIN_SEEKER,
   },
   {
-    name: ROLES.ROOM_OWNER,
+    name: ROLES_TO_DISPLAY.ROOM_OWNER,
     route: ROUTES.LOGIN_OWNER,
   },
   {
-    name: ROLES.SUPER_ADMIN,
+    name: ROLES_TO_DISPLAY.SUPER_ADMIN,
     route: ROUTES.LOGIN_ADMIN,
   },
 ];
