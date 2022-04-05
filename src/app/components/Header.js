@@ -157,18 +157,23 @@ export default function Header(props) {
             )}
             {authenticated && (
               <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                <IconButton
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="primary"
-                >
-                  <Badge
-                  //   badgeContent={17}
-                  //   color="error"
-                  >
-                    <ShoppingCart />
-                  </Badge>
-                </IconButton>
+                {role === ROOM_SEEKER && (
+                  <Link to={`/app${ROUTES.CART}`}>
+                    <IconButton
+                      size="large"
+                      aria-label="show 17 new notifications"
+                      color="primary"
+                    >
+                      <Badge
+                        badgeContent={cartItems}
+                        //   badgeContent={17}
+                        //   color="error"
+                      >
+                        <ShoppingCart />
+                      </Badge>
+                    </IconButton>
+                  </Link>
+                )}
                 <IconButton
                   size="large"
                   aria-label="show more"
