@@ -109,7 +109,7 @@ function ContentRoutes() {
           />
         );
       })}
-      {role == SUPER_ADMIN &&
+      {role === SUPER_ADMIN &&
         adminPages.map((page, index) => {
           return (
             <Route
@@ -120,7 +120,7 @@ function ContentRoutes() {
             />
           );
         })}
-      {role == ROOM_OWNER &&
+      {role === ROOM_OWNER &&
         roomOwnerPages.map((page, index) => {
           return (
             <Route

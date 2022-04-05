@@ -1,11 +1,6 @@
 // Author: Utsava Verma (B00873273)
 
-import {
-  Box,
-  Button,
-  Grid,
-  TextField,
-} from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import React, { useState, forwardRef, useEffect } from "react";
@@ -13,10 +8,10 @@ import logo from "assets/images/logo.png";
 import api from "common/api";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "AppContext";
 import { useContext } from "react";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Checkbox from "@mui/material/Checkbox";
@@ -24,7 +19,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
-import UploadIcon from "@mui/icons-material/Upload";
 import { useParams } from "react-router-dom";
 
 const EAlert = forwardRef(function Alert(props, ref) {
@@ -86,31 +80,35 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonBox: {
     margin: "24px 0px 8px",
-    display: 'flex',
+    display: "flex",
     "& button": {
       padding: "11px 22px",
       fontWeight: 600,
     },
     "& .button-delete": {
-    marginLeft: 'auto',
+      marginLeft: "auto",
     },
   },
 }));
 
 function EditListing() {
-  const { pathname } = useLocation();
   const {
-    state: { authenticated, authToken },
+    state: { authToken },
   } = useContext(AppContext);
+  // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line
   const [error, setError] = useState("");
+  // eslint-disable-next-line
   const [success, setSuccess] = useState("");
   const [open, setOpen] = useState(false);
   const classes = useStyles();
   const navigate = useNavigate();
+  // eslint-disable-next-line
   const [propertyDetails, setPropertyDetails] = useState(DEF_PROPERTY_DETAILS);
   const [inputPropertyDetails, setInputPropertyDetails] =
     useState(DEF_PROPERTY_DETAILS);
+  // eslint-disable-next-line
   const [array, setArray] = useState([]);
 
   const postalCodeRegex = RegExp(
@@ -129,14 +127,14 @@ function EditListing() {
         },
       })
       .then((res) => {
-        console.log(_id);
-        console.log(res.data);
+        // console.log(_id);
+        // console.log(res.data);
         setInputPropertyDetails(res.data);
       });
+    // eslint-disable-next-line
   }, []);
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
+  // eslint-disable-next-line
   const [errorStrings, setErrorStrings] = useState({
     addrStreet: "",
     addrPostalCode: "",
@@ -147,7 +145,7 @@ function EditListing() {
     let valid = true;
 
     Object.values(errorStrings).forEach((val) => {
-      console.log(val, val.length);
+      // console.log(val, val.length);
       if (val.length > 0) {
         valid = false;
       }
@@ -233,14 +231,14 @@ function EditListing() {
           [name]: e.target.value,
         });
         let currentDate = new Date();
-        let u =
-          currentDate.getFullYear() +
-          "-" +
-          (currentDate.getMonth() + 1) +
-          "-" +
-          currentDate.getDate();
-        console.log(u);
-        console.log(e.target.value);
+        // let u =
+        //   currentDate.getFullYear() +
+        //   "-" +
+        //   (currentDate.getMonth() + 1) +
+        //   "-" +
+        //   currentDate.getDate();
+        // console.log(u);
+        // console.log(e.target.value);
         errorStrings.moveInDate =
           e.target.value < currentDate ? "Please enter a future date." : "";
 
@@ -261,11 +259,10 @@ function EditListing() {
   //Handle Submit
   const handlePropertySubmit = (e) => {
     e.preventDefault();
-    console.log(inputPropertyDetails);
+    // console.log(inputPropertyDetails);
     if (validateNewListing(errorStrings)) {
-      
       setPropertyDetails({ ...inputPropertyDetails });
-     
+
       api
         .put(
           `/property-routes/update-rental-property/${inputPropertyDetails._id}`,
@@ -273,7 +270,7 @@ function EditListing() {
           {
             headers: {
               Authorization: `Bearer ${authToken}`,
-            }
+            },
           }
         )
         .then((res) => {
@@ -311,10 +308,11 @@ function EditListing() {
   const am = [];
 
   // split function : get array
-  const splitAmenities = () => {
-    am = array.split(",");
-    alert(am[0]);
-  };
+  // eslint-disable-next-line
+  // const splitAmenities = () => {
+  //   am = array.split(",");
+  //   alert(am[0]);
+  // };
   const isAmenityChecked = (amenity) => {
     const amenitiesArray = inputPropertyDetails.amenities?.split(",");
     return amenitiesArray.includes(amenity);
@@ -329,10 +327,10 @@ function EditListing() {
   const handleAmenityChange = (e) => {
     const inputAmenity = e.target.value;
     for (var j = 0; j < am.length; j++) {
-      if (inputAmenity === am[i]) return true;
+      if (inputAmenity === am[j]) return true;
     }
 
-    console.log("amenity", amenity);
+    // console.log("amenity", amenity);
     const i = amenity.indexOf(inputAmenity);
     if (i === -1) {
       amenity.push(inputAmenity);
@@ -345,7 +343,7 @@ function EditListing() {
       newAmenity += inputAmenity + ",";
     });
 
-    console.log(newAmenity);
+    // console.log(newAmenity);
     setInputPropertyDetails({ ...inputPropertyDetails, amenities: newAmenity });
   };
 
@@ -587,12 +585,11 @@ function EditListing() {
                   <span className="errorMsg">{errorStrings.moveInDate}</span>
                 )}
             </Grid>
-            
           </Grid>
 
           <Box>
             <FormControl style={{ width: "100%" }}>
-              <FormLabel className = "amenities-heading">Amenities</FormLabel>
+              <FormLabel className="amenities-heading">Amenities</FormLabel>
               <FormGroup
                 style={{
                   flexDirection: "row",
@@ -728,13 +725,7 @@ function EditListing() {
           </Box>
 
           {/* FILE UPLOAD DIV */}
-          <input
-            type="file"
-            name="propertyImage"
-            multiple
-           
-            
-          />
+          <input type="file" name="propertyImage" multiple />
           <Box className={classes.buttonBox} textTransform="lowercase">
             <Button
               disableElevation
@@ -746,7 +737,7 @@ function EditListing() {
               Submit
             </Button>
             <Button
-            className="button-delete"
+              className="button-delete"
               disableElevation
               type="submit"
               disabled={loading}

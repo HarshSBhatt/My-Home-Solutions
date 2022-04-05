@@ -61,9 +61,9 @@ export default function MyBookings() {
             marginTop={3}
             key={id}
           >
-            <Grid container marginLeft={5} columns={16} >
+            <Grid container marginLeft={5} columns={16}>
               <Grid item xs={12} md={5}>
-                <img className="col" src={image1} alt="Not found" width={400}/>
+                <img className="col" src={image1} alt="Not found" width={400} />
               </Grid>
               <Grid item xs={12} md={6} marginLeft={20} marginTop={5}>
                 <p>Booking Confirmed !</p>

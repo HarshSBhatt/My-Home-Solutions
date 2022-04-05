@@ -85,6 +85,7 @@ export default function Header(props) {
 
   useEffect(() => {
     getCartDetailsFromDB();
+    // eslint-disable-next-line
   }, []);
 
   const menuId = "primary-search-account-menu";
