@@ -201,12 +201,12 @@ function RoomOwner() {
           [name]: value,
         });
         let currentDate = new Date();
-        let u =
-          currentDate.getFullYear() +
-          "-" +
-          (currentDate.getMonth() + 1) +
-          "-" +
-          currentDate.getDate();
+        // let u =
+        //   currentDate.getFullYear() +
+        //   "-" +
+        //   (currentDate.getMonth() + 1) +
+        //   "-" +
+        //   currentDate.getDate();
         // console.log(u);
         // console.log(e.target.value);
 

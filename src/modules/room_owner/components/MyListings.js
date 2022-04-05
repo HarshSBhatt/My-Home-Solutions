@@ -15,7 +15,7 @@ import { AppContext } from "AppContext";
 
 export default function MyListings() {
   const {
-    state: { userId, authToken },
+    state: { authToken },
   } = useContext(AppContext);
   const { state } = useContext(AppContext);
   const { role } = state;

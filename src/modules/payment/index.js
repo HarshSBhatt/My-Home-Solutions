@@ -20,7 +20,7 @@ function Payment({ items, total, disabled, cartOuterId }) {
         items,
         total,
       };
-      const response = await api.post("/payment/make", body, {
+      await api.post("/payment/make", body, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
