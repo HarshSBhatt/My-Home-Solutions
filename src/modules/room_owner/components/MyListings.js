@@ -31,17 +31,17 @@ export default function MyListings() {
         },
       })
       .then((res) => {
-        console.log(res.data[0]);
+        // console.log(res.data[0]);
         setAllRecords(res.data);
       });
     // eslint-disable-next-line
   }, []);
 
-  console.log(userId);
-  console.log(allRecords);
+  // console.log(userId);
+  // console.log(allRecords);
 
   const handleModify = async (id) => {
-    console.log("user id ", userId);
+    // console.log("user id ", userId);
     navigate(`/app/edit-listing/${id}`);
   };
 

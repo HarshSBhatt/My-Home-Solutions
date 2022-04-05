@@ -123,7 +123,7 @@ function RoomOwner() {
     let valid = true;
 
     Object.values(errorStrings).forEach((val) => {
-      console.log(val, val.length);
+      // console.log(val, val.length);
       if (val.length > 0) {
         valid = false;
       }
@@ -207,8 +207,8 @@ function RoomOwner() {
           (currentDate.getMonth() + 1) +
           "-" +
           currentDate.getDate();
-        console.log(u);
-        console.log(e.target.value);
+        // console.log(u);
+        // console.log(e.target.value);
 
         errorStrings.moveInDate =
           e.target.value < currentDate ? "Please enter a future date." : "";
@@ -221,7 +221,7 @@ function RoomOwner() {
         });
         break;
       case "image":
-        console.log(e.files);
+        // console.log(e.files);
         break;
       default:
         break;
@@ -235,7 +235,7 @@ function RoomOwner() {
       alert("Submitted");
 
       setPropertyDetails({ ...inputPropertyDetails });
-      console.log(inputPropertyDetails);
+      // console.log(inputPropertyDetails);
 
       const formData = new FormData();
       Object.values(files).forEach((file) => {
@@ -268,7 +268,7 @@ function RoomOwner() {
         })
         .then((res) => {
           alert("New property created.");
-          console.log(res.data.data);
+          // console.log(res.data.data);
         });
     } else {
       alert("Invalid entries.");
@@ -289,7 +289,7 @@ function RoomOwner() {
         return inputAmenity !== "";
       });
 
-    console.log("amenity", amenity);
+    // console.log("amenity", amenity);
     const i = amenity.indexOf(inputAmenity);
     if (i === -1) {
       amenity.push(inputAmenity);
@@ -302,12 +302,12 @@ function RoomOwner() {
       newAmenity += inputAmenity + ",";
     });
 
-    console.log(newAmenity);
+    // console.log(newAmenity);
     setInputPropertyDetails({ ...inputPropertyDetails, amenities: newAmenity });
   };
 
   const onFileChange = (e) => {
-    console.log(e.target.files);
+    // console.log(e.target.files);
     setFiles(e.target.files);
   };
 

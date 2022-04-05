@@ -127,8 +127,8 @@ function EditListing() {
         },
       })
       .then((res) => {
-        console.log(_id);
-        console.log(res.data);
+        // console.log(_id);
+        // console.log(res.data);
         setInputPropertyDetails(res.data);
       });
     // eslint-disable-next-line
@@ -145,7 +145,7 @@ function EditListing() {
     let valid = true;
 
     Object.values(errorStrings).forEach((val) => {
-      console.log(val, val.length);
+      // console.log(val, val.length);
       if (val.length > 0) {
         valid = false;
       }
@@ -237,8 +237,8 @@ function EditListing() {
           (currentDate.getMonth() + 1) +
           "-" +
           currentDate.getDate();
-        console.log(u);
-        console.log(e.target.value);
+        // console.log(u);
+        // console.log(e.target.value);
         errorStrings.moveInDate =
           e.target.value < currentDate ? "Please enter a future date." : "";
 
@@ -259,7 +259,7 @@ function EditListing() {
   //Handle Submit
   const handlePropertySubmit = (e) => {
     e.preventDefault();
-    console.log(inputPropertyDetails);
+    // console.log(inputPropertyDetails);
     if (validateNewListing(errorStrings)) {
       setPropertyDetails({ ...inputPropertyDetails });
 
@@ -330,7 +330,7 @@ function EditListing() {
       if (inputAmenity === am[j]) return true;
     }
 
-    console.log("amenity", amenity);
+    // console.log("amenity", amenity);
     const i = amenity.indexOf(inputAmenity);
     if (i === -1) {
       amenity.push(inputAmenity);
@@ -343,7 +343,7 @@ function EditListing() {
       newAmenity += inputAmenity + ",";
     });
 
-    console.log(newAmenity);
+    // console.log(newAmenity);
     setInputPropertyDetails({ ...inputPropertyDetails, amenities: newAmenity });
   };
 
