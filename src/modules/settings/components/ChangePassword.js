@@ -5,13 +5,14 @@ import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useContext } from "react";
 import api from "common/api";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import { ChangePasswordSchema } from "common/validationSchema";
 import { ROUTES } from "common/constants";
+import { AppContext } from "AppContext";
 
 const EAlert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -49,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ChangePassword() {
+  const {
+    state: { authToken },
+  } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -67,7 +71,11 @@ function ChangePassword() {
   const onSubmit = async (formData) => {
     setLoading(true);
     try {
-      const res = await api.post("/users/change-password", formData);
+      const res = await api.post("/users/change-password", formData, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
 
       const { data } = res;
 

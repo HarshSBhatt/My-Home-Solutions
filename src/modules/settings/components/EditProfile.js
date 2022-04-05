@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 function EditProfile() {
   const {
-    state: { currentUser },
+    state: { currentUser, authToken },
     dispatch,
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
@@ -70,7 +70,12 @@ function EditProfile() {
     try {
       const res = await api.put(
         `/users/profile/${currentUser.user_id}`,
-        formData
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
       );
       const { data } = res;
       if (data.success) {
