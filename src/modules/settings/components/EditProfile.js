@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 function EditProfile() {
   const {
-    state: { currentUser},
+    state: { currentUser },
     dispatch,
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);

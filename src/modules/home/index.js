@@ -4,7 +4,6 @@
 // import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import ProductHero from "./components/Jumbotron";
-import PropertiesHomePage from "./components/PropertiesHomePage";
 import TwoBlocks from "./components/TwoBlocks";
 import AddListingBlock from "./components/AddListingBlock";
 
@@ -16,8 +15,8 @@ function Homepage() {
   return (
     <div>
       <ProductHero />
-        <TwoBlocks />
-        <AddListingBlock/>
+      <TwoBlocks />
+      <AddListingBlock />
     </div>
   );
 }

@@ -1,29 +1,18 @@
 // Author: Utsava Verma (B00873273)
 
-import {
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-  Divider,
-} from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import "./AddProperty.css";
-import React, { useState, forwardRef, useEffect } from "react";
+import React, { useState, forwardRef } from "react";
 
 import logo from "assets/images/logo.png";
 import api from "common/api";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "AppContext";
 import { useContext } from "react";
-import { SignupSchema } from "common/validationSchema";
-import { ROOM_SEEKER, ROUTES } from "common/constants";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Checkbox from "@mui/material/Checkbox";
@@ -31,8 +20,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
-import UploadIcon from "@mui/icons-material/Upload";
-import axios from "axios";
 
 const EAlert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -99,29 +86,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const currentRole = {
-  "/register": "register-room-seeker",
-  "/register-owner": "register-room-owner",
-  "/register-admin": "register-super-admin",
-};
-
 function RoomOwner() {
-  const { pathname } = useLocation();
   const {
-    state: { authenticated, authToken },
+    state: { authToken },
   } = useContext(AppContext);
 
+  // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState(ROOM_SEEKER);
-  const [route, setRoute] = useState(ROUTES.SIGNUP_SEEKER);
+  // eslint-disable-next-line
   const [error, setError] = useState("");
+  // eslint-disable-next-line
   const [success, setSuccess] = useState("");
   const [open, setOpen] = useState(false);
   const classes = useStyles();
-  const {
-    state: { userId },
-  } = useContext(AppContext);
+
   const navigate = useNavigate();
+  // eslint-disable-next-line
   const [propertyDetails, setPropertyDetails] = useState(DEF_PROPERTY_DETAILS);
   const [inputPropertyDetails, setInputPropertyDetails] =
     useState(DEF_PROPERTY_DETAILS);
@@ -132,8 +112,7 @@ function RoomOwner() {
     /^[a-zA-Z][0-9][a-zA-Z][ ][0-9][a-zA-Z][0-9]{1}/
   );
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
+  // eslint-disable-next-line
   const [errorStrings, setErrorStrings] = useState({
     addrStreet: "",
     addrPostalCode: "",
@@ -164,28 +143,24 @@ function RoomOwner() {
           [name]: value,
         });
         break;
-
       case "address":
         setInputPropertyDetails({
           ...inputPropertyDetails,
           [name]: value,
         });
         break;
-
       case "unitNo":
         setInputPropertyDetails({
           ...inputPropertyDetails,
           [name]: value,
         });
         break;
-
       case "city":
         setInputPropertyDetails({
           ...inputPropertyDetails,
           [name]: value,
         });
         break;
-
       case "province":
         setInputPropertyDetails({
           ...inputPropertyDetails,
@@ -202,28 +177,24 @@ function RoomOwner() {
           ? ""
           : "Please enter postal code in valid format. (E.g. B3K 2R3)";
         break;
-
       case "availableRooms":
         setInputPropertyDetails({
           ...inputPropertyDetails,
           [name]: value,
         });
         break;
-
       case "type":
         setInputPropertyDetails({
           ...inputPropertyDetails,
           [name]: value,
         });
         break;
-
       case "totalRooms":
         setInputPropertyDetails({
           ...inputPropertyDetails,
           [name]: value,
         });
         break;
-
       case "availabilityStartDate":
         setInputPropertyDetails({
           ...inputPropertyDetails,
@@ -243,17 +214,15 @@ function RoomOwner() {
           e.target.value < currentDate ? "Please enter a future date." : "";
 
         break;
-
       case "rent":
         setInputPropertyDetails({
           ...inputPropertyDetails,
           [name]: value,
         });
         break;
-
       case "image":
         console.log(e.files);
-
+        break;
       default:
         break;
     }
