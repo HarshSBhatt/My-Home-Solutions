@@ -21,7 +21,11 @@ export default function ProductHero() {
       }}
     >
       {/* Increase the network loading priority of the background image. */}
-      <img style={{ display: "none" }} src={Hero} alt="increase priority" />
+      <img
+        style={{ display: "none", height: "100%" }}
+        src={Hero}
+        alt="increase priority"
+      />
       <Typography color="inherit" align="center" variant="h2" marked="center">
         FIND YOURSELF A BETTER HOUSE
       </Typography>

@@ -6,16 +6,14 @@ import { AppContext } from "AppContext";
 import api from "common/api";
 import CartItem from "./CartItem";
 import * as ActionTypes from "common/actionTypes";
-import { Box, fontSize } from "@mui/system";
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/system";
+import Payment from "modules/payment";
 
 function CartList() {
   const { state, dispatch } = useContext(AppContext);
   const [cartList, setCartList] = useState([]);
   const [cartOuterId, setCartOuterId] = useState([]);
   const [cartTotals, setCartTotals] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function getCartDetailsFromDB() {
@@ -52,6 +50,7 @@ function CartList() {
       }
     }
     getCartDetailsFromDB();
+    // eslint-disable-next-line
   }, []);
 
   function getCartList() {
@@ -112,9 +111,8 @@ function CartList() {
       );
     } else {
       return getCartList().map((cartItem, id) => (
-        <div>
+        <div key={cartItem._id}>
           <CartItem
-            key={cartItem._id}
             value={cartItem}
             handleDeletion={() => handleDeletion(cartItem._id)}
           ></CartItem>
@@ -131,46 +129,18 @@ function CartList() {
 
   // renderCheckoutButton : If cart is empty, disable the checkout button.
   const renderCheckoutButton = () => {
-    if (getCartList().length === 0) {
-      return (
-        <Button
-          variant="contained"
-          onClick={() => callBooking(cartOuterId)}
-          disabled
-        >
-          Checkout
-        </Button>
-      );
-    } else {
-      return (
-        <Button
-          id={cartOuterId}
-          variant="contained"
-          onClick={() => callBooking(cartOuterId)}
-        >
-          Checkout
-        </Button>
-      );
-    }
+    const items = [];
+    return (
+      <>
+        <Payment
+          items={items}
+          disabled={getCartList().length === 0}
+          total={cartTotals.subTotal}
+          cartOuterId={cartOuterId}
+        />
+      </>
+    );
   };
-
-  // callBooking: Call the booking module on press of checkout and pass the cart id.
-  function callBooking(id) {
-    var sendData = {
-      cartId: id,
-    };
-    api
-      .post("booking/booking-confirmation", sendData, {
-        headers: {
-          Authorization: `Bearer ${state.authToken}`,
-        },
-      })
-      .then((response) => {
-        navigate("/app/booking-confirmation", {
-          state: { ...response.data },
-        });
-      });
-  }
 
   return (
     <div>

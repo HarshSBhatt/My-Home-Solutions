@@ -7,18 +7,15 @@ import {
   InputLabel,
   FormControl,
   TextField,
-  Grid,
 } from "@mui/material";
 import image1 from "../../../assets/images/image1.png";
 import "./Reserve.css";
 import { Alert } from "@mui/lab";
 import api from "common/api";
 import { AppContext } from "AppContext";
-import { useNavigate } from "react-router-dom";
 import * as ActionTypes from "common/actionTypes";
 
 export default function Reserve() {
-  const navigate = useNavigate();
   const {
     state: { authToken, cartItems },
     dispatch,

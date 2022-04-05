@@ -1,30 +1,26 @@
 // Author: Utsava Verma (B00873273)
 
-import React, { Component } from "react";
+import React from "react";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import "./MyListings.css";
 //import toast, { Toaster } from "react-hot-toast";
-import { ROLE, ROOM_OWNER } from "common/constants";
+import { ROOM_OWNER } from "common/constants";
 import { Navigate } from "react-router-dom";
 import api from "common/api";
 
-import {
-  Button,
-  Grid,
-} from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { AppContext } from "AppContext";
+
 export default function MyListings() {
   const {
-    state: { userId, authToken },
+    state: { authToken },
   } = useContext(AppContext);
   const { state } = useContext(AppContext);
-  const { role, authenticated } = state;
+  const { role } = state;
   const [allRecords, setAllRecords] = useState([]);
   const navigate = useNavigate();
-  const params = useParams();
 
   const api_url = `/property-routes/get-rental-properties/`;
   useEffect(() => {
@@ -35,17 +31,17 @@ export default function MyListings() {
         },
       })
       .then((res) => {
-        console.log(res.data[0]);
+        // console.log(res.data[0]);
         setAllRecords(res.data);
       });
+    // eslint-disable-next-line
   }, []);
 
-  console.log(userId);
-  console.log(allRecords);
+  // console.log(userId);
+  // console.log(allRecords);
 
   const handleModify = async (id) => {
- 
-    console.log("user id ", userId);
+    // console.log("user id ", userId);
     navigate(`/app/edit-listing/${id}`);
   };
 
@@ -68,7 +64,7 @@ export default function MyListings() {
                 key={r._id}
                 className="profile_images"
                 src={r.propertyPictures[0]}
-                alt="Photo"
+                alt="My Home Room"
               ></img>
               <label>
                 Apartment Name:<p>{r.propertyTitle}</p>
