@@ -1,3 +1,5 @@
+// Author: Harsh Bhatt (B00877053)
+
 import { HistoryOutlined } from "@mui/icons-material";
 import { Button, Snackbar, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
