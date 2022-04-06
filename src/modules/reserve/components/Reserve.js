@@ -109,7 +109,7 @@ export default function Reserve() {
         <>
           <div className="prop-parent">
             {properties().map((data, id) => (
-              <div className="each-prop">
+              <div className="each-prop" key={id}>
                 <div className="prop-pic">
                   {/*{/<Carousel>/}*/}
                   {/*/!*    /!{data.propertyPictures.map((picture) => <img key={picture} className="col" src={image1} alt="image" />)}!/*!/*/}

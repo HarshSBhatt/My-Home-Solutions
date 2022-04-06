@@ -129,11 +129,10 @@ function CartList() {
 
   // renderCheckoutButton : If cart is empty, disable the checkout button.
   const renderCheckoutButton = () => {
-    const items = [];
     return (
       <>
         <Payment
-          items={items}
+          items={cartList}
           disabled={getCartList().length === 0}
           total={cartTotals.subTotal}
           cartOuterId={cartOuterId}
