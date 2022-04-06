@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 // import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+// import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import MobileMenu from "./MobileMenu";
 import DesktopMenu from "./DesktopMenu";
@@ -114,7 +114,7 @@ export default function Header(props) {
             )}
             {authenticated && (
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                <IconButton
+                {/* <IconButton
                   size="large"
                   aria-label="show 17 new notifications"
                   color="primary"
@@ -125,7 +125,7 @@ export default function Header(props) {
                   >
                     <NotificationsIcon />
                   </Badge>
-                </IconButton>
+                </IconButton> */}
                 {role === ROOM_SEEKER && (
                   <Link to={`/app${ROUTES.CART}`}>
                     <IconButton
