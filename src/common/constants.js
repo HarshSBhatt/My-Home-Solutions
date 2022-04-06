@@ -25,6 +25,7 @@ export const ROUTES = {
   SETTINGS: "/settings",
   PROFILE: "/profile",
   CHECKOUT: "/checkout",
+  BOOKING_HISTORY: "/booking-history",
   //Author Namit Prakash Dadlani - B00873214
   CART: "/cart",
   ROOM_OWNER_PATH: "/room-owner",

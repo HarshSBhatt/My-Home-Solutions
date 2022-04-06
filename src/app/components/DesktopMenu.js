@@ -6,6 +6,7 @@ import Menu from "@mui/material/Menu";
 import { Avatar, Divider, ListItemIcon, Typography } from "@mui/material";
 import { Logout, Settings as Setting } from "@mui/icons-material";
 import { ROUTES } from "common/constants";
+import HistoryIcon from "@mui/icons-material/History";
 
 function DesktopMenu({
   handleMenuClose,
@@ -69,7 +70,17 @@ function DesktopMenu({
         <MenuItem
           onClick={(event) => handleMenuItemClick(event, ROUTES.PROFILE)}
         >
-          <Avatar /> Profile
+          <Avatar sx={{ bgcolor: "#5048e5" }} /> Profile
+        </MenuItem>
+        <MenuItem
+          onClick={(event) =>
+            handleMenuItemClick(event, ROUTES.BOOKING_HISTORY)
+          }
+        >
+          <Avatar sx={{ bgcolor: "#5048e5" }}>
+            <HistoryIcon />
+          </Avatar>{" "}
+          My Bookings
         </MenuItem>
         <Divider />
         <MenuItem

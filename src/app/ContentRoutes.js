@@ -20,6 +20,7 @@ import ListRoomOwners from "modules/admin/components/ListRoomOwners";
 import ListRoomSeekers from "modules/admin/components/ListRoomSeekers";
 import UnverifiedUser from "modules/admin/components/UnverifiedUser";
 import RejectedUser from "modules/admin/components/RejectedUser";
+import BookingHistory from "modules/booking_history";
 
 function ContentRoutes() {
   const {
@@ -38,7 +39,6 @@ function ContentRoutes() {
       pageLink: ROUTES.PROFILE,
       view: Profile,
     },
-    //Author: Namit Prakash Dadlani - B00873214
     {
       pageLink: ROUTES.CART,
       view: Cart,
@@ -59,10 +59,13 @@ function ContentRoutes() {
       pageLink: ROUTES.ROOM_OWNER_LISTINGS_PATH,
       view: MyListings,
     },
+    {
+      pageLink: ROUTES.BOOKING_HISTORY,
+      view: BookingHistory,
+    },
   ];
 
   const adminPages = [
-    //Author: Arunkumar Gauda - B00871355
     {
       pageLink: ROUTES.ADMINDASHBOARD,
       view: AdminDashboard,

@@ -6,7 +6,6 @@ import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Logout, Settings } from "@mui/icons-material";
 import { ROUTES } from "common/constants";
 import { Divider, Typography } from "@mui/material";
@@ -52,7 +51,7 @@ function MobileMenu({
           <Typography>{currentUser.email}</Typography>
         </MenuItem>
         <Divider />
-        <MenuItem>
+        {/* <MenuItem>
           <IconButton
             size="large"
             aria-label="show 17 new notifications"
@@ -66,7 +65,7 @@ function MobileMenu({
             </Badge>
           </IconButton>
           <p>Notifications</p>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem
           onClick={(event) => handleMenuItemClick(event, ROUTES.PROFILE)}
         >
