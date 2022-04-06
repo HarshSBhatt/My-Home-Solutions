@@ -86,7 +86,7 @@ function BookingHistory() {
     // eslint-disable-next-line
   }, []);
 
-  if (loading) return <Loading message="Loading your profile" />;
+  if (loading) return <Loading message="Loading your booking history" />;
   return (
     <div>
       {error && (
