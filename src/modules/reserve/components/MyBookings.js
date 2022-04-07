@@ -36,7 +36,7 @@ export default function MyBookings() {
       bookingId: id,
     };
 
-    api.post("booking/booking-cancellation", params).then((response) => {
+    api.post("/booking/booking-cancellation", params).then((response) => {
       const updatedProperties =
         response?.data &&
         propertyDetails &&

@@ -7,7 +7,7 @@ import {
   InputLabel,
   FormControl,
   TextField,
-  Grid, Typography,
+  Typography,
 } from "@mui/material";
 import image1 from "../../../assets/images/image1.png";
 import "./Reserve.css";
@@ -36,9 +36,9 @@ export default function Reserve() {
       api.get("/getProperty/get-property-details").then((response) => {
         console.log(response["data"]);
         const filteredData = response["data"].filter(
-            (property) =>
-                new Date(property.availabilityStartDate).getTime() <=
-                new Date(startDate).getTime()
+          (property) =>
+            new Date(property.availabilityStartDate).getTime() <=
+            new Date(startDate).getTime()
         );
         if (filteredData.length) {
           setPropertyDetails(filteredData || []);
@@ -63,24 +63,23 @@ export default function Reserve() {
     };
 
     api
-        .post("/cart/add", postData, {
-          headers: { Authorization: `Bearer ${authToken}` },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            dispatch({
-              type: ActionTypes.SET_CART,
-              data: cartItems + 1,
-            });
-            setPropertyId(id);
-            setSuccess(true);
-            setTimeout(() => {
-              setSuccess(false);
-            }, 2000);
-          }
-        });
+      .post("/cart/add", postData, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch({
+            type: ActionTypes.SET_CART,
+            data: cartItems + 1,
+          });
+          setPropertyId(id);
+          setSuccess(true);
+          setTimeout(() => {
+            setSuccess(false);
+          }, 2000);
+        }
+      });
   }
-
 
   function validateDate(event) {
     event.preventDefault();
@@ -94,115 +93,132 @@ export default function Reserve() {
     return propertyDetails;
   }
 
-
   function displayProperties() {
     if (propertyDetails) {
       return (
-          <>
-            <div className="prop-parent">
-              {properties().map((data, id) => (
+        <>
+          <div className="prop-parent">
+            {properties().map((data, id) => (
+              <div className="each-prop" key={id}>
+                <div className="prop-pic">
+                  <img className="col" src={image1} alt="Not found" />
+                </div>
 
-                  <div className="each-prop" key={id}>
-                    <div className="prop-pic">
-                      <img className="col" src={image1} alt="Not found" />
-                    </div>
+                <div className="prop-desc">
+                  <Typography
+                    variant="button"
+                    display="block"
+                    gutterBottom
+                    color="royalblue"
+                  >
+                    {data.propertyTitle}
+                  </Typography>
+                  <Typography
+                    variant="button"
+                    display="block"
+                    gutterBottom
+                    color="royalblue"
+                  >
+                    Rent: {data.rent} per month
+                  </Typography>
+                  <Typography
+                    variant="button"
+                    display="block"
+                    gutterBottom
+                    color="royalblue"
+                  >
+                    Amenities Include:
+                  </Typography>
+                  <Typography
+                    variant="overline"
+                    display="block"
+                    gutterBottom
+                    color="darkslateblue"
+                  >
+                    {data.amenities}
+                  </Typography>
 
-                    <div className="prop-desc">
-                      <Typography variant="button" display="block" gutterBottom color="royalblue">
-                        {data.propertyTitle}
-                      </Typography>
-                      <Typography variant="button" display="block" gutterBottom color="royalblue">
-                        Rent: {data.rent} per month
-                      </Typography>
-                      <Typography variant="button" display="block" gutterBottom color="royalblue">
-                        Amenities Include:
-                      </Typography>
-                      <Typography variant="overline" display="block" gutterBottom color="darkslateblue">
-                        {data.amenities}
-                      </Typography>
-
-                      <div className="button-center">
-                        <Button
-                            variant="contained"
-                            className="cart-button"
-                            onClick={() => addToCart(data._id, data.rent)}
-                        >
-                          Add To Cart
-                        </Button>
-                      </div>
-
-
-                      {propertyId === data._id && success && (
-                          <Alert severity="success">
-                            Property has been added to cart
-                          </Alert>
-                      )}
-                    </div>
+                  <div className="button-center">
+                    <Button
+                      variant="contained"
+                      className="cart-button"
+                      onClick={() => addToCart(data._id, data.rent)}
+                    >
+                      Add To Cart
+                    </Button>
                   </div>
-              ))}
-            </div>
-          </>
+
+                  {propertyId === data._id && success && (
+                    <Alert severity="success">
+                      Property has been added to cart
+                    </Alert>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       );
     }
   }
   return (
-      <div>
-        <div className="form-parent">
-          <div className="form-feild">
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">
-                Room Type
-              </InputLabel>
-              <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  label="Room Type"
-                  value={roomType}
-                  onChange={(e) => {
-                    setRoomType(e.target.value);
-                  }}
-              >
-                <MenuItem value="room">Room</MenuItem>
-                <MenuItem value="house">Entire House</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div className="form-feild">
-            <TextField
-                variant="outlined"
-                color="secondary"
-                type="date"
-                value={startDate}
-                onChange={(e) => {
-                  setStartDate(e.target.value);
-                }}
-            />
-          </div>
-          <div className="form-feild">
-            <TextField
-                variant="outlined"
-                color="secondary"
-                type="date"
-                value={endDate}
-                onChange={(e) => {
-                  setEndDate(e.target.value);
-                }}
-            />
-          </div>
-          <div className="search">
-            <Button variant="contained" onClick={callProperties}>
-              Search
-            </Button>
-          </div>
+    <div>
+      <div className="form-parent">
+        <div className="form-feild">
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-standard-label">
+              Room Type
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              label="Room Type"
+              value={roomType}
+              onChange={(e) => {
+                setRoomType(e.target.value);
+              }}
+            >
+              <MenuItem value="room">Room</MenuItem>
+              <MenuItem value="house">Entire House</MenuItem>
+            </Select>
+          </FormControl>
         </div>
-
-        {error ? (
-            <div style={{ marginLeft: "5px" }}>
-              <Alert severity="error">{error} </Alert>{" "}
-            </div>
-        ) : (
-            displayProperties()
-        )}
+        <div className="form-feild">
+          <TextField
+            variant="outlined"
+            color="secondary"
+            type="date"
+            value={startDate}
+            onChange={(e) => {
+              setStartDate(e.target.value);
+            }}
+          />
+        </div>
+        <div className="form-feild">
+          <TextField
+            variant="outlined"
+            color="secondary"
+            type="date"
+            value={endDate}
+            onChange={(e) => {
+              setEndDate(e.target.value);
+            }}
+          />
+        </div>
+        <div className="search">
+          <Button variant="contained" onClick={callProperties}>
+            Search
+          </Button>
+        </div>
       </div>
+
+      {error ? (
+        <div style={{ marginLeft: "5px" }}>
+          <Alert severity="error">{error} </Alert>{" "}
+        </div>
+      ) : (
+        displayProperties()
+      )}
+    </div>
   );
 }
