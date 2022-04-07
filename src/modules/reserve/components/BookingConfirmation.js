@@ -31,10 +31,16 @@ export default function BookingConfirmation() {
         style={{ display: "flex", alignItems: "center" }}
       >
         <Grid item xs={12} md={12}>
-          <h2>Booking Confirmed !!</h2>
+          <Typography variant="h4" gutterBottom component="div" color="dodgerblue">
+            Booking Confirmed !!
+          </Typography>
           <img className="col" src={image1} alt="Not found" />
-          <p>Order Id: {booking._id}</p>
-          <h4>Stay Intended</h4>
+          <Typography variant="button" display="block" gutterBottom color="dodgerblue">
+            Order Id: {booking._id}
+          </Typography>
+          <Typography variant="button" display="block" gutterBottom color="dodgerblue">
+           Stay Intended
+          </Typography>
         </Grid>
         <Grid rowSpacing={1} item xs={12} md={12}>
           {booking?.propertyItems.map((property) => {

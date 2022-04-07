@@ -7,6 +7,7 @@ import {
   InputLabel,
   FormControl,
   TextField,
+  Grid, Typography,
 } from "@mui/material";
 import image1 from "../../../assets/images/image1.png";
 import "./Reserve.css";
@@ -33,10 +34,11 @@ export default function Reserve() {
     event.preventDefault();
     if (validateDate(event)) {
       api.get("/getProperty/get-property-details").then((response) => {
+        console.log(response["data"]);
         const filteredData = response["data"].filter(
-          (property) =>
-            new Date(property.availabilityStartDate).getTime() <=
-            new Date(startDate).getTime()
+            (property) =>
+                new Date(property.availabilityStartDate).getTime() <=
+                new Date(startDate).getTime()
         );
         if (filteredData.length) {
           setPropertyDetails(filteredData || []);
@@ -61,36 +63,24 @@ export default function Reserve() {
     };
 
     api
-      .post("/cart/add", postData, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          dispatch({
-            type: ActionTypes.SET_CART,
-            data: cartItems + 1,
-          });
-          setPropertyId(id);
-          setSuccess(true);
-          setTimeout(() => {
-            setSuccess(false);
-          }, 2000);
-        }
-      });
+        .post("/cart/add", postData, {
+          headers: { Authorization: `Bearer ${authToken}` },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            dispatch({
+              type: ActionTypes.SET_CART,
+              data: cartItems + 1,
+            });
+            setPropertyId(id);
+            setSuccess(true);
+            setTimeout(() => {
+              setSuccess(false);
+            }, 2000);
+          }
+        });
   }
 
-  // function callBooking(){
-  //
-  //     var sendData ={
-  //         cartId:"6243a364d824d41458d7702e"
-  //     }
-  //     api.post('booking/booking-confirmation', sendData).then(response => {
-  //         navigate('/app/booking-confirmation', {
-  //             state: {...response.data}
-  //         });
-  //
-  //     });
-  // }
 
   function validateDate(event) {
     event.preventDefault();
@@ -103,119 +93,116 @@ export default function Reserve() {
   function properties() {
     return propertyDetails;
   }
+
+
   function displayProperties() {
     if (propertyDetails) {
       return (
-        <>
-          <div className="prop-parent">
-            {properties().map((data, id) => (
-              <div className="each-prop" key={id}>
-                <div className="prop-pic">
-                  {/*{/<Carousel>/}*/}
-                  {/*/!*    /!{data.propertyPictures.map((picture) => <img key={picture} className="col" src={image1} alt="image" />)}!/*!/*/}
-                  {/*/!*    *!/*/}
-                  {/*{/</Carousel>/}*/}
-                  <img className="col" src={image1} alt="Not found" />
-                </div>
+          <>
+            <div className="prop-parent">
+              {properties().map((data, id) => (
 
-                <div className="prop-desc">
-                  <p>{data.propertyTitle}</p>
-                  <p>Rent: {data.rent} per month</p>
-                  {/* <p>
-                        {" "}
+                  <div className="each-prop" key={id}>
+                    <div className="prop-pic">
+                      <img className="col" src={image1} alt="Not found" />
+                    </div>
+
+                    <div className="prop-desc">
+                      <Typography variant="button" display="block" gutterBottom color="royalblue">
+                        {data.propertyTitle}
+                      </Typography>
+                      <Typography variant="button" display="block" gutterBottom color="royalblue">
+                        Rent: {data.rent} per month
+                      </Typography>
+                      <Typography variant="button" display="block" gutterBottom color="royalblue">
                         Amenities Include:
-                        {data.amenities.map((amenity) => (
-                            <Button key={amenity} variant="text">
-                              {amenity}
-                            </Button>
-                        ))}
-                      </p> */}
-                  <p>
-                    Amenities Included:
-                    <Button variant="text">{data.amenities}</Button>
-                  </p>
+                      </Typography>
+                      <Typography variant="overline" display="block" gutterBottom color="darkslateblue">
+                        {data.amenities}
+                      </Typography>
 
-                  <Button
-                    variant="contained"
-                    onClick={() => addToCart(data._id, data.rent)}
-                  >
-                    Add To Cart
-                  </Button>
+                      <div className="button-center">
+                        <Button
+                            variant="contained"
+                            className="cart-button"
+                            onClick={() => addToCart(data._id, data.rent)}
+                        >
+                          Add To Cart
+                        </Button>
+                      </div>
 
-                  {propertyId === data._id && success && (
-                    <Alert severity="success">
-                      Property has been added to cart
-                    </Alert>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
+
+                      {propertyId === data._id && success && (
+                          <Alert severity="success">
+                            Property has been added to cart
+                          </Alert>
+                      )}
+                    </div>
+                  </div>
+              ))}
+            </div>
+          </>
       );
     }
   }
   return (
-    <div>
-      <div className="form-parent">
-        <div className="form-feild">
-          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-simple-select-standard-label">
-              Room Type
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              label="Room Type"
-              value={roomType}
-              onChange={(e) => {
-                setRoomType(e.target.value);
-              }}
-            >
-              <MenuItem value="room">Room</MenuItem>
-              <MenuItem value="house">Entire House</MenuItem>
-            </Select>
-          </FormControl>
+      <div>
+        <div className="form-parent">
+          <div className="form-feild">
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">
+                Room Type
+              </InputLabel>
+              <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  label="Room Type"
+                  value={roomType}
+                  onChange={(e) => {
+                    setRoomType(e.target.value);
+                  }}
+              >
+                <MenuItem value="room">Room</MenuItem>
+                <MenuItem value="house">Entire House</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <div className="form-feild">
+            <TextField
+                variant="outlined"
+                color="secondary"
+                type="date"
+                value={startDate}
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                }}
+            />
+          </div>
+          <div className="form-feild">
+            <TextField
+                variant="outlined"
+                color="secondary"
+                type="date"
+                value={endDate}
+                onChange={(e) => {
+                  setEndDate(e.target.value);
+                }}
+            />
+          </div>
+          <div className="search">
+            <Button variant="contained" onClick={callProperties}>
+              Search
+            </Button>
+          </div>
         </div>
-        <div className="form-feild">
-          <TextField
-            variant="outlined"
-            color="secondary"
-            type="date"
-            value={startDate}
-            onChange={(e) => {
-              setStartDate(e.target.value);
-            }}
-          />
-        </div>
-        <div className="form-feild">
-          <TextField
-            variant="outlined"
-            color="secondary"
-            type="date"
-            value={endDate}
-            onChange={(e) => {
-              setEndDate(e.target.value);
-            }}
-          />
-        </div>
-        <div className="search">
-          <Button variant="contained" onClick={callProperties}>
-            Search
-          </Button>
-        </div>
-        {/*<Grid item xs={12} md={3}>*/}
-        {/*    <Button variant="contained" onClick={callBooking} >Test</Button>*/}
-        {/*</Grid>*/}
-      </div>
 
-      {error ? (
-        <div style={{ marginLeft: "5px" }}>
-          <Alert severity="error">{error} </Alert>{" "}
-        </div>
-      ) : (
-        displayProperties()
-      )}
-    </div>
+        {error ? (
+            <div style={{ marginLeft: "5px" }}>
+              <Alert severity="error">{error} </Alert>{" "}
+            </div>
+        ) : (
+            displayProperties()
+        )}
+      </div>
   );
 }
