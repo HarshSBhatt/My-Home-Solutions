@@ -46,7 +46,7 @@ export default function Header(props) {
       if (null !== res.data.cartItems) {
         dispatch({
           type: ActionTypes.SET_CART,
-          data: res.data.cartItems.cartItems.length,
+          data: parseInt(res.data.cartItems.cartItems.length),
         });
       }
     } catch (e) {

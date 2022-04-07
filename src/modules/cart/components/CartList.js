@@ -74,7 +74,7 @@ function CartList() {
         setCartList(res.data.cartItems.cartItems);
         dispatch({
           type: ActionTypes.SET_CART,
-          data: res.data.cartItems.cartItems.length,
+          data: parseInt(res.data.cartItems.cartItems.length),
         });
         let tempCartList = res.data.cartItems.cartItems;
         let total = 0;

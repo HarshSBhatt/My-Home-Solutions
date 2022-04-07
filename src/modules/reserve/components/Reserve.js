@@ -70,7 +70,7 @@ export default function Reserve() {
         if (response.status === 200) {
           dispatch({
             type: ActionTypes.SET_CART,
-            data: cartItems + 1,
+            data: parseInt(cartItems) + 1,
           });
           setPropertyId(id);
           setSuccess(true);
