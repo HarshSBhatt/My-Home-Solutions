@@ -67,6 +67,6 @@ export const ROLES_TO_DISPLAY = {
 
 export const defaultRoute = {
   super_admin: `/app${ROUTES.ADMINDASHBOARD}`,
-  room_owner: `/app${ROUTES.ROOM_OWNER_PATH}`,
+  room_owner: `/app${ROUTES.ROOM_OWNER_LISTINGS_PATH}`,
   room_seeker: ROUTES.HOME,
 };

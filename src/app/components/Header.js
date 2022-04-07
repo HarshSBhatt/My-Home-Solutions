@@ -79,8 +79,12 @@ export default function Header(props) {
     }
   };
 
-  const handleButtonClick = (route) => {
-    navigate(route);
+  const handleButtonClick = (route, authRequired) => {
+    if (authRequired) {
+      navigate(`/app${route}`);
+    } else {
+      navigate(route);
+    }
   };
 
   useEffect(() => {
@@ -102,6 +106,24 @@ export default function Header(props) {
               </Link>
             </Box>
             <Box sx={{ flexGrow: 1 }} />
+            {authenticated && role === "room_owner" && (
+              <>
+                <Button
+                  onClick={() =>
+                    handleButtonClick(ROUTES.ROOM_OWNER_PATH, true)
+                  }
+                >
+                  Add Property
+                </Button>
+                <Button
+                  onClick={() =>
+                    handleButtonClick(ROUTES.ROOM_OWNER_LISTINGS_PATH, true)
+                  }
+                >
+                  My Listings
+                </Button>
+              </>
+            )}
             {!authenticated && (
               <>
                 <Button onClick={() => handleButtonClick(ROUTES.LOGIN_SEEKER)}>
