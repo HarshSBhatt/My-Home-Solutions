@@ -8,12 +8,37 @@ import CartItem from "./CartItem";
 import * as ActionTypes from "common/actionTypes";
 import { Box } from "@mui/system";
 import Payment from "modules/payment";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  cartBox: {
+    paddingRight: 50,
+    paddingLeft: 50,
+    paddingTop: 15,
+    paddingBottom: 15,
+    border: "0.5px solid black",
+  },
+  cartHeading: {
+    paddingTop: 15,
+    paddingBottom: 15,
+    width: "100%",
+    fontWeight: "bold",
+    color: "#5048e5",
+    borderBottom: "0.5px solid #5048e5",
+  },
+  cartEmpty: {
+    paddingTop: 15,
+    paddingBottom: 15,
+    width: "100%",
+  },
+}));
 
 function CartList() {
   const { state, dispatch } = useContext(AppContext);
   const [cartList, setCartList] = useState([]);
   const [cartOuterId, setCartOuterId] = useState([]);
   const [cartTotals, setCartTotals] = useState([]);
+  const classes = useStyles();
 
   useEffect(() => {
     async function getCartDetailsFromDB() {
@@ -104,7 +129,7 @@ function CartList() {
   const renderCartContent = () => {
     if (getCartList().length === 0) {
       return (
-        <h4>
+        <h4 className={classes.cartEmpty}>
           Hey! Your cart is empty, please visit our amazing collection of
           properties and add them to cart.
         </h4>
@@ -116,12 +141,6 @@ function CartList() {
             value={cartItem}
             handleDeletion={() => handleDeletion(cartItem._id)}
           ></CartItem>
-          <Grid item>
-            <p>
-              If you would like to explore other options, click delete icon and
-              navigate to reserve page again.
-            </p>
-          </Grid>
         </div>
       ));
     }
@@ -144,12 +163,19 @@ function CartList() {
   return (
     <div>
       <Box display="flex">
-        <Grid container direction={"row"} spacing={1} columns={16} margin={5}>
+        <Grid
+          container
+          spacing={1}
+          columns={16}
+          margin={5}
+          className={classes.cartBox}
+        >
           <Grid item>
-            <h3>Your Cart</h3>
+            <div className={classes.cartHeading}>
+              <h3>Your Cart</h3>
+            </div>
+            {renderCartContent()}
           </Grid>
-
-          <Grid item>{renderCartContent()}</Grid>
         </Grid>
 
         <Grid container direction={"row"} spacing={1} columns={16} margin={5}>
