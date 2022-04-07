@@ -8,6 +8,7 @@ import {
   FormControl,
   TextField,
   Typography,
+  Box,
 } from "@mui/material";
 import image1 from "../../../assets/images/image1.png";
 import "./Reserve.css";
@@ -15,12 +16,20 @@ import { Alert } from "@mui/lab";
 import api from "common/api";
 import { AppContext } from "AppContext";
 import * as ActionTypes from "common/actionTypes";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: "2rem 0",
+  },
+}));
 
 export default function Reserve() {
   const {
     state: { authToken, cartItems },
     dispatch,
   } = useContext(AppContext);
+  const classes = useStyles();
   const [roomType, setRoomType] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -162,7 +171,7 @@ export default function Reserve() {
     }
   }
   return (
-    <div>
+    <Box className={classes.root} container>
       <div className="form-parent">
         <div className="form-feild">
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -219,6 +228,6 @@ export default function Reserve() {
       ) : (
         displayProperties()
       )}
-    </div>
+    </Box>
   );
 }

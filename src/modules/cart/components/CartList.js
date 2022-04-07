@@ -9,8 +9,6 @@ import * as ActionTypes from "common/actionTypes";
 import { Box } from "@mui/system";
 import Payment from "modules/payment";
 import { makeStyles } from "@mui/styles";
-import { Fullscreen } from "@mui/icons-material";
-
 
 const useStyles = makeStyles((theme) => ({
   cartBox: {
@@ -18,20 +16,20 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 50,
     paddingTop: 15,
     paddingBottom: 15,
-    border: '0.5px solid black',
+    border: "0.5px solid black",
   },
   cartHeading: {
     paddingTop: 15,
     paddingBottom: 15,
-    width: '100%',
-    fontWeight: 'bold',
+    width: "100%",
+    fontWeight: "bold",
     color: "#5048e5",
-    borderBottom: '0.5px solid #5048e5',
+    borderBottom: "0.5px solid #5048e5",
   },
-  cartEmpty :{
+  cartEmpty: {
     paddingTop: 15,
     paddingBottom: 15,
-    width: '100%',
+    width: "100%",
   },
 }));
 
@@ -165,9 +163,17 @@ function CartList() {
   return (
     <div>
       <Box display="flex">
-        <Grid container spacing={1} columns={16} margin={5} className={classes.cartBox}>
+        <Grid
+          container
+          spacing={1}
+          columns={16}
+          margin={5}
+          className={classes.cartBox}
+        >
           <Grid item>
-            <div className={classes.cartHeading}><h3>Your Cart</h3></div>
+            <div className={classes.cartHeading}>
+              <h3>Your Cart</h3>
+            </div>
             {renderCartContent()}
           </Grid>
         </Grid>
