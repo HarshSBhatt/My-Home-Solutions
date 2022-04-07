@@ -3,15 +3,15 @@
 import * as React from "react";
 import { Button, Typography } from "@mui/material";
 import RoomOwner from "assets/images/house.jpg";
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import ImageSectionLayout from "../components/ImageSectionLayout";
-// import { ROUTES } from "common/constants";
+import { ROUTES } from "common/constants";
 
 export default function AddListingBlock() {
-  //   const navigate = useNavigate();
-  //   const handleClick = () => {
-  //     navigate(`/app${ROUTES.RESERVE}`);
-  //   };
+    const navigate = useNavigate();
+    const handleClick = () => {
+      navigate(`/app${ROUTES.ROOM_OWNER_PATH}`);
+    };
   return (
     <ImageSectionLayout
       sxBackground={{
@@ -52,6 +52,7 @@ export default function AddListingBlock() {
         size="large"
         component="a"
         sx={{ minWidth: 200, mt: 15 }}
+        onClick={handleClick}
       >
         Register Property
       </Button>
