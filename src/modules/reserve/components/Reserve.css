@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    justify-content: space-evenly;
+    /*justify-content: space-evenly;*/
     padding-bottom: 10px;
     padding-top: 10px;
     margin: 15px;
@@ -41,10 +41,18 @@
 }
 
 .prop-desc {
-    padding: 10px;
+    width: 35%;
+    padding-left: 20%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+.amenities-button{
+    width: 105%;
+    margin-left: -3%;
+}
+.cart-button{
+    width: 30%;
 }
 
 .prop-pic {
@@ -64,6 +72,20 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+    .amenities-button{
+        width: 100%;
+
+    }
+    .cart-button{
+        width: 100%;
+    }
+    .prop-desc {
+        width: 100%;
+        padding-left: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 }
 
