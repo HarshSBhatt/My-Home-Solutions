@@ -1,10 +1,26 @@
 // Author: Harsh Bhatt (B00877053)
 
-import { Chip, Grid, Paper, Typography } from "@mui/material";
-import React from "react";
+import { Chip, Grid, Paper, Typography, Button } from "@mui/material";
+import React, { useState, forwardRef, useContext } from "react";
 import moment from "moment";
+import api from "common/api";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { AppContext } from "AppContext";
+
+const EAlert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function BookingBlock({ booking }) {
+  const {
+    state: { authToken },
+  } = useContext(AppContext);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
+
   const { _id, bookingAmount, status, propertyItems } = booking;
   const bookingStatus = {
     booking_status_confirmed: {
@@ -24,8 +40,58 @@ function BookingBlock({ booking }) {
       color: "info",
     },
   };
+
+  const handleCancelBooking = async () => {
+    setLoading(true);
+    try {
+      const body = {
+        bookingId: _id,
+      };
+      await api.post("/booking/booking-cancellation", body, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+      setOpen(true);
+      setSuccess(
+        "Booking cancelled successfully! Your money will be credited in a few business days"
+      );
+      setError("");
+      window.location.reload();
+    } catch (error) {
+      setOpen(true);
+      if (error.response?.data) {
+        setError(error.response.data.message);
+      } else {
+        setError(error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <>
+      {error && (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <EAlert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            {error}
+          </EAlert>
+        </Snackbar>
+      )}
+      {success && (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <EAlert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
+            {success}
+          </EAlert>
+        </Snackbar>
+      )}
       <Paper
         sx={{
           p: 2,
@@ -52,10 +118,19 @@ function BookingBlock({ booking }) {
                   From Date:{" "}
                   {moment(propertyItems?.[0].fromDate).format("MMMM D, YYYY")}
                 </Typography>
-                <Typography variant="body2" component="div">
+                <Typography gutterBottom variant="body2" component="div">
                   To Date:{" "}
                   {moment(propertyItems?.[0].toDate).format("MMMM D, YYYY")}
                 </Typography>
+                {status !== "booking_status_cancelled" && (
+                  <Button
+                    variant="contained"
+                    disabled={loading}
+                    onClick={handleCancelBooking}
+                  >
+                    Cancel
+                  </Button>
+                )}
               </Grid>
             </Grid>
             <Grid item>
